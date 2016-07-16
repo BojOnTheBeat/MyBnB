@@ -83,7 +83,7 @@ public class TableSetup {
 		
 		//Database credentials
 		final String USER = "root";
-		final String PASS = ""; //Insert Password Here
+		final String PASS = ""; //Insert Password Here or make user type it?
 		System.out.println("Connecting to database...");
 		
 		//Establish connection
