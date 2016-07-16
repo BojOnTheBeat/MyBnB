@@ -55,7 +55,7 @@ public class TableSetup {
 	 */
 	public static void main(String[] args) throws ClassNotFoundException {
 		String dbClassName = "com.mysql.jdbc.Driver";
-		String CONNECTION = "jdbc:mysql://127.0.0.1/mydb";
+		String CONNECTION = "jdbc:mysql://127.0.0.1/mydb"; //?autoReconnect=true&useSSL=false";
 		
 		//Register JDBC driver
 		Class.forName(dbClassName);
