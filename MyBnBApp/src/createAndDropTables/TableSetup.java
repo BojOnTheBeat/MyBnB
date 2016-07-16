@@ -48,6 +48,27 @@ public class TableSetup {
 	    	
 	}
 	
+	//Function to Create A Renter Table
+	public void createRenterTable() throws SQLException {
+		
+		String CreateRenterString =  
+				"create table Renter" + "(rsin int(9) NOT NULL, " +
+				"creditCard int(16) NOT NULL UNIQUE," +
+				"FOREIGN KEY (sin) REFERENCES User(sin) ON UPDATE CASCADE ON DELETE CASCADE);";
+		Statement stmt = null;
+	    try {
+	      stmt = conn.createStatement();
+	      stmt.executeUpdate(CreateRenterString);
+	    } catch (SQLException e) {
+	    	System.err.println("Connection error occured!");
+	    } finally {
+	      if (stmt != null) { 
+	    	  stmt.close(); 
+	    	  }
+	    }
+	    	
+	}
+	
 	//TODO: Functions for all other tables.
 
 	/**
