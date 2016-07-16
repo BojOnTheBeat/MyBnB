@@ -11,12 +11,12 @@ create table User
 create table Renter
 	(rsin int(9) NOT NULL,
 	creditCard int(16) NOT NULL UNIQUE,
-	FOREIGN KEY (sin) REFERENCES User(sin));
+	FOREIGN KEY (sin) REFERENCES User(sin) ON UPDATE CASCADE ON DELETE CASCADE);
 
 create table Host
 	(sin int(9) NOT NULL,
 	lid int NOT NULL REFERENCES Listing(lid),
-	FOREIGN KEY (sin) REFERENCES User(sin));
+	FOREIGN KEY (sin) REFERENCES User(sin) ON UPDATE CASCADE ON DELETE CASCADE);
 
 create table Listing
 	(host_sin int(9) NOT NULL REFERENCES User (sin),
@@ -35,12 +35,12 @@ create table Amenities
 	PRIMARY KEY (aid));
 
 create table ListingAmenities
-	(lid int NOT NULL REFERENCES Listing(lid),
+	(lid int NOT NULL REFERENCES Listing(lid) ON DELETE CASCADE,
 	aid int(50) NOT NULL REFERENCES Amenities(aid),
 	PRIMARY KEY (lid, aid));
 
 create table ListingAvailability
-	(lid int NOT NULL REFERENCES Listing(lid),
+	(lid int NOT NULL REFERENCES Listing(lid) ON DELETE CASCADE,
 	ldate date NOT NULL,
 	price int NOT NULL,
 	PRIMARY KEY(lid, ldate));
