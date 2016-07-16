@@ -1,0 +1,8 @@
+Assumptions.txt
+
+Assume postal code is a 6 character string
+Assume SIN is always a 9 character int
+Assume Prices are always ints(no decimals or floats)
+Assume 2016 is current year (so 18+ is <= 1998. We judge age by year alone, not months)
+If unemployed, set occupation to 'unemployed'...can't be null
+CreditCard# is 16 digits

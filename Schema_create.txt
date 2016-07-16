@@ -1,0 +1,72 @@
+create table User 
+	(sin int(9) NOT NULL,
+	name varchar(32) NOT NULL,
+	uaddr varchar(50) NOT NULL,
+	dob date NOT NULL CHECK(YEAR(dob) <= 1998),
+	occupation varchar(32),
+	PRIMARY KEY (sin),
+	UNIQUE (uaddr));
+
+
+create table Renter
+	(rsin int(9) NOT NULL REFERENCES User(sin),
+	creditCard int(16) NOT NULL UNIQUE,
+	PRIMARY KEY (sin));
+
+create table Host
+	(sin int(9) NOT NULL REFERENCES User(sin),
+	lid int NOT NULL REFERENCES Listing(lid),
+	PRIMARY KEY (sin));
+
+create table Listing
+	(host_sin int(9) NOT NULL REFERENCES User (sin),
+	lid int NOT NULL AUTO_INCREMENT,
+	type varchar(32) NOT NULL,
+	laddr varchar(50) NOT NULL,
+	postal_code varchar(9) NOT NULL,
+	city varchar(20) NOT NULL,
+	country varchar(20) NOT NULL,
+	UNIQUE (laddr),
+	PRIMARY KEY (lid));
+
+create table Amenities
+	(aid int NOT NULL AUTO_INCREMENT,
+	a_type varchar(50) NOT NULL,
+	PRIMARY KEY (aid));
+
+create table ListingAmenities
+	(lid int NOT NULL REFERENCES Listing(lid),
+	aid int(50) NOT NULL REFERENCES Amenities(aid),
+	PRIMARY KEY (lid, aid));
+
+create table ListingAvailability
+	(lid int NOT NULL REFERENCES Listing(lid),
+	ldate date NOT NULL,
+	price int NOT NULL,
+	PRIMARY KEY(lid, ldate));
+
+create table Booking
+	(rsin int(9) NOT NULL REFERENCES Renter(rsin),
+	lid int NOT NULL REFERENCES Listing(lid),
+	startDate date NOT NULL REFERENCES ListingAvailability(ldate),
+	endDate date NOT NULL REFERENCES ListingAvailability(ldate),
+	isCancelled boolean DEFAULT 0,
+	PRIMARY KEY (rsin, startDate, endDate));
+
+create table ExperienceComment
+	(rsin int(9) NOT NULL REFERENCES Renter(rsin),
+	lid int NOT NULL REFERENCES Listing(lid),
+	comment varchar(256) NOT NULL,
+	rating int CHECK(rating >= 1 AND rating <= 5),
+	PRIMARY KEY (rsin lid));
+
+create table RenterComment
+	(host_sin int(9) NOT NULL REFERENCES Host(sin),
+	rsin int(9) NOT NULL REFERENCES Renter(rsin),
+	comment varchar(256) NOT NULL,
+	lid int NOT NULL REFERENCES Listing(lid)
+	PRIMARY KEY (rsin, lid));
+
+
+
+

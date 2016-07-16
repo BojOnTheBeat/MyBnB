@@ -1,0 +1,56 @@
+OPERATIONS
+
+1. Create profiles, delete profiles (user or renter)
+	INSERT into USER(SIN, name, address, DOB, occupation) VALUES (9912, "1295 Military Trail", 4/5/96, "Doctor")
+	INSERT into HOST(SIN, Lid) VALUES (<99912>, <21345>); //If Lid doesn't exist, tell the user to create a new Listing first.
+
+	DELETE from HOST 
+	WHERE SIN = 9912
+
+2. Book_listing...try to display total price if booking is succesul
+	//check first if the listing is available for that date
+	//i.e for each day in user-specified duration, check if each day is available for that listing
+	//do this in java via simple queries?
+	//Then mark days as unavailable since we're now booking the days
+	//add the prices for all the individual days and use that as totalPrice
+
+	INSERT into BOOKING(rSIN, lID, startDate, endDate, totalPrice, isCancelled)  VALUES (9912, 2/3/2012, 2/6/2012, $500, False) 
+
+	//make is_cancelled false by default
+
+
+3. Cancel booking is as simple as setting isCancelled to true for a booking where rSIN, startDate and endDate are specified.
+	// set isCancelled to True
+	//Only the person that created the booking can cancel it...or the host
+	//To check if the host cancelled it, get the LID and check the SIN for the host is the SIN of the person requesting a delete.
+	//Make the days available again
+
+
+4. Create Listing...we need to create Lids...have java generate a random 5 figure int, check if it exists before using it as a Lid for a listing
+	//Add Amenities to Listing_Amenities
+	//Add Availability and price
+	//Associate with the host that just created it...ie add to HOST table
+
+5. Update Listing...only the host can do that
+	// Price can only be changed if the listing isn't booked on that day
+	// Availability dates can only be removed if the listing isn't booked on that day
+	// Adding more availability dates should be fine. (as long as date isn't already there)
+
+5. Remove a listing
+	//Only the Host that put up this listing can remove it though so check for that
+	//Delete all entries with matching Lid from LISTING_AVAILABILITY, LISTING_AMENITIES, 
+
+6. Comments
+	Just insert it into the table depending on which type of comment
+		-If a host is commenting on a renter, it's a RENTER_COMMENT
+			-> A host can only comment on a renter that has rented his listing
+		-If a renter is commenting on his/her experience it's an EXPERIENCE_COMMENT
+			-> A renter can only comment on a listing if he has rented it recently.
+
+
+
+SEARCH QUERIES
+
+
+
+
