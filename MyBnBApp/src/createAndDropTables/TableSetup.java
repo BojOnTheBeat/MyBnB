@@ -52,7 +52,7 @@ public class TableSetup {
  public void createRenterTable() throws SQLException {
     
     String CreateRenterString =    
-        "create table Renter" + "(rsin int(9) NOT NULL, " +
+        "create table Renter" + "(sin int(9) NOT NULL, " +
         "creditCard int(16) NOT NULL UNIQUE," +
         "FOREIGN KEY (sin) REFERENCES User(sin) ON UPDATE CASCADE ON DELETE CASCADE);";
     Statement stmt = null;
@@ -61,6 +61,22 @@ public class TableSetup {
              stmt.executeUpdate(CreateRenterString);
          } catch (SQLException e) {
             System.err.println("Connection error occured!");
+            e.printStackTrace(System.err);
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
          } finally {
              if (stmt != null) { 
                 stmt.close(); 
@@ -73,7 +89,7 @@ public class TableSetup {
  public void createHostTable() throws SQLException {
     
     String CreateHostString =    
-        "create table Host" + "(rsin int(9) NOT NULL, " +
+        "create table Host" + "(sin int(9) NOT NULL, " +
         "lid int NOT NULL REFERENCES Listing(lid)," +
         "FOREIGN KEY (sin) REFERENCES User(sin) ON UPDATE CASCADE ON DELETE CASCADE);";
     Statement stmt = null;
@@ -82,6 +98,22 @@ public class TableSetup {
              stmt.executeUpdate(CreateHostString);
          } catch (SQLException e) {
             System.err.println("Connection error occured!");
+            e.printStackTrace(System.err);
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
          } finally {
              if (stmt != null) { 
                 stmt.close(); 
@@ -109,6 +141,22 @@ public class TableSetup {
              stmt.executeUpdate(CreateListingString);
          } catch (SQLException e) {
             System.err.println("Connection error occured!");
+            e.printStackTrace(System.err);
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
          } finally {
              if (stmt != null) { 
                 stmt.close(); 
@@ -130,6 +178,22 @@ public class TableSetup {
              stmt.executeUpdate(CreateAmenitiesString);
          } catch (SQLException e) {
             System.err.println("Connection error occured!");
+            e.printStackTrace(System.err);
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
          } finally {
              if (stmt != null) { 
                 stmt.close(); 
@@ -151,6 +215,22 @@ public class TableSetup {
              stmt.executeUpdate(CreateListingAmenitiesString);
          } catch (SQLException e) {
             System.err.println("Connection error occured!");
+            e.printStackTrace(System.err);
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
          } finally {
              if (stmt != null) { 
                 stmt.close(); 
@@ -173,6 +253,22 @@ public class TableSetup {
              stmt.executeUpdate(CreateListingAvailabilityString);
          } catch (SQLException e) {
             System.err.println("Connection error occured!");
+            e.printStackTrace(System.err);
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
          } finally {
              if (stmt != null) { 
                 stmt.close(); 
@@ -185,7 +281,7 @@ public class TableSetup {
  public void createBookingTable() throws SQLException {
     
     String CreateBookingString =    
-        "create table Booking" + "(rsin int(9) NOT NULL REFERENCES Renter(rsin)," +
+        "create table Booking" + "(rsin int(9) NOT NULL REFERENCES Renter(sin)," +
         "lid int NOT NULL REFERENCES Listing(lid)," +
         "startDate date NOT NULL REFERENCES ListingAvailability(ldate)," +
         "endDate date NOT NULL REFERENCES ListingAvailability(ldate)," +
@@ -197,6 +293,22 @@ public class TableSetup {
              stmt.executeUpdate(CreateBookingString);
          } catch (SQLException e) {
             System.err.println("Connection error occured!");
+            e.printStackTrace(System.err);
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
          } finally {
              if (stmt != null) { 
                 stmt.close(); 
@@ -209,17 +321,33 @@ public class TableSetup {
  public void createExperienceCommentTable() throws SQLException {
     
     String CreateExperienceCommentString =    
-        "create table ExperienceComment" + "(rsin int(9) NOT NULL REFERENCES Renter(rsin)," +
+        "create table ExperienceComment" + "(rsin int(9) NOT NULL REFERENCES Renter(sin)," +
         "lid int NOT NULL REFERENCES Listing(lid)," +
         "comment varchar(256) NOT NULL," +
         "rating int CHECK(rating >= 1 AND rating <= 5)," +
-        "PRIMARY KEY (rsin lid));";
+        "PRIMARY KEY (rsin, lid));";
     Statement stmt = null;
          try {
              stmt = conn.createStatement();
              stmt.executeUpdate(CreateExperienceCommentString);
          } catch (SQLException e) {
             System.err.println("Connection error occured!");
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            e.printStackTrace(System.err);
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
          } finally {
              if (stmt != null) { 
                 stmt.close(); 
@@ -233,16 +361,32 @@ public class TableSetup {
     
     String CreateRenterCommentString =    
         "create table RenterComment" + "(host_sin int(9) NOT NULL REFERENCES Host(sin)," +
-        "rsin int(9) NOT NULL REFERENCES Renter(rsin)," +
+        "rsin int(9) NOT NULL REFERENCES Renter(sin)," +
         "comment varchar(256) NOT NULL," +
-        "lid int NOT NULL REFERENCES Listing(lid)" +
-        "PRIMARY KEY (rsin, lid));";
+        "lid int NOT NULL REFERENCES Listing(lid)," +
+        "PRIMARY KEY (host_sin, lid));";
     Statement stmt = null;
          try {
              stmt = conn.createStatement();
              stmt.executeUpdate(CreateRenterCommentString);
          } catch (SQLException e) {
             System.err.println("Connection error occured!");
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            e.printStackTrace(System.err);
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
          } finally {
              if (stmt != null) { 
                 stmt.close(); 
@@ -257,14 +401,14 @@ public class TableSetup {
     */
  public static void main(String[] args) throws ClassNotFoundException {
     String dbClassName = "com.mysql.jdbc.Driver";
-    String CONNECTION = "jdbc:mysql://127.0.0.1/mydb"; //?autoReconnect=true&useSSL=false";
+    String CONNECTION = "jdbc:mysql://127.0.0.1/mydb?autoReconnect=true&useSSL=false";
     
     //Register JDBC driver
     Class.forName(dbClassName);
     
     //Database credentials
     final String USER = "root";
-    final String PASS = ""; //Insert Password Here
+    final String PASS = "bamboo10"; //Insert Password Here
     System.out.println("Connecting to database...");
     
     //Establish connection
@@ -284,6 +428,7 @@ public class TableSetup {
      myTableSetup.createListingTable();
      myTableSetup.createAmenitiesTable();
      myTableSetup.createListingAmenitiesTable();
+     myTableSetup.createListingAvailabilityTable();
      myTableSetup.createBookingTable();
      myTableSetup.createExperienceCommentTable();
      myTableSetup.createRenterCommentTable();
@@ -293,8 +438,26 @@ public class TableSetup {
      myconn.close();
      System.out.println("Success!");
     } catch (SQLException e) {
-     // Can't get a connection
-     System.err.println("Connection error occured!");
+    	// Can't get a connection
+    	System.err.println("Connection error occured!");
+    	
+    	//**EXTRA ERROR INFO FOR DEBUGGING**
+    	e.printStackTrace(System.err);
+        System.err.println("SQLState: " +
+            ((SQLException)e).getSQLState());
+
+        System.err.println("Error Code: " +
+            ((SQLException)e).getErrorCode());
+
+        System.err.println("Message: " + e.getMessage());
+
+        Throwable t = e.getCause();
+        while(t != null) {
+            System.out.println("Cause: " + t);
+            t = t.getCause();
+        }
+
+     
     }
     
     
