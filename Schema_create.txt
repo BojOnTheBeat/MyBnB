@@ -9,14 +9,14 @@ create table User
 
 
 create table Renter
-	(rsin int(9) NOT NULL REFERENCES User(sin),
+	(rsin int(9) NOT NULL,
 	creditCard int(16) NOT NULL UNIQUE,
-	PRIMARY KEY (sin));
+	FOREIGN KEY (sin) REFERENCES User(sin));
 
 create table Host
-	(sin int(9) NOT NULL REFERENCES User(sin),
+	(sin int(9) NOT NULL,
 	lid int NOT NULL REFERENCES Listing(lid),
-	PRIMARY KEY (sin));
+	FOREIGN KEY (sin) REFERENCES User(sin));
 
 create table Listing
 	(host_sin int(9) NOT NULL REFERENCES User (sin),
