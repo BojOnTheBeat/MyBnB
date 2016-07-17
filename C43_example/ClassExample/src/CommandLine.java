@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CommandLine {
-	// 'sqlMngr' is the object which interacts directly with MySQL
+		// 'sqlMngr' is the object which interacts directly with MySQL
 		private SQLController sqlMngr = null;
 	    // 'sc' is needed in order to scan the inputs provided by the user
 		private Scanner sc = null;
