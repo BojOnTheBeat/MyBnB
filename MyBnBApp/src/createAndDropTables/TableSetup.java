@@ -48,6 +48,82 @@ public class TableSetup {
             
  }
  
+ //Create an Update Trigger and an insert trigger to enforce the dob checks in the User table.
+ 
+ public void createUserInsTrigger() throws SQLException {
+	 
+	 String userInsTrig = 
+			 "CREATE TRIGGER UserIns BEFORE INSERT ON User "+
+			 "FOR EACH ROW BEGIN " + "DECLARE msg varchar(255);" +"IF YEAR(NEW.dob) > 1998 THEN "+
+			 "   SET msg = 'Constraints violated!';" + " SIGNAL sqlstate '45000'    set message_text = msg;"+
+			 "END IF; END;";
+	 
+	 Statement stmt = null;
+     try {
+         stmt = conn.createStatement();
+         stmt.execute(userInsTrig);
+     } catch (SQLException e) {
+        System.err.println("Connection error occured!");
+        
+        //Extra debug info
+        System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
+     } finally {
+         if (stmt != null) { 
+            stmt.close(); 
+            }
+     }
+
+ }
+ 
+ public void createUserUpdTrigger() throws SQLException {
+	 
+	 String userUpdTrig = 
+			 "CREATE TRIGGER UserUpd BEFORE UPDATE ON User "+
+			 "FOR EACH ROW BEGIN " + "DECLARE msg varchar(255);" +"IF YEAR(NEW.dob) > 1998 THEN "+
+			 "   SET msg = 'Constraints violated!';" + " SIGNAL sqlstate '45001'    set message_text = msg;"+
+			 "END IF; END;";
+	 
+	 
+	 Statement stmt = null;
+     try {
+         stmt = conn.createStatement();
+         stmt.execute(userUpdTrig);
+     } catch (SQLException e) {
+        System.err.println("Connection error occured!");
+        
+        //Extra Debug info
+        System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
+     } finally {
+         if (stmt != null) { 
+            stmt.close(); 
+            }
+     }
+ }
+ 
  //Function to Create A Renter Table
  public void createRenterTable() throws SQLException {
     
@@ -356,6 +432,83 @@ public class TableSetup {
             
  }
  
+ //Insert and update triggers to enforce checks in ExperienceComment table
+ 
+ public void createExpCommInsTrigger() throws SQLException {
+	 
+	 String expCommInsTrig = 
+			 "CREATE TRIGGER expCommIns BEFORE INSERT ON ExperienceComment "+
+			 "FOR EACH ROW BEGIN " + "DECLARE msg varchar(255);" +"IF NEW.rating < 1 OR NEW.rating > 5 THEN "+
+			 "   SET msg = 'Constraints violated!';" + " SIGNAL sqlstate '45000'    set message_text = msg;"+
+			 "END IF; END ;";
+	 
+	 Statement stmt = null;
+     try {
+         stmt = conn.createStatement();
+         stmt.execute(expCommInsTrig);
+     } catch (SQLException e) {
+        System.err.println("Connection error occured!");
+        
+        //Extra debug info
+        System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
+     } finally {
+         if (stmt != null) { 
+            stmt.close(); 
+            }
+     }
+
+	 
+ }
+ 
+ public void createExpCommUpdTrigger() throws SQLException {
+	 
+	 String expCommUpdTrig = 
+			 "CREATE TRIGGER expCommUpd BEFORE UPDATE ON ExperienceComment "+
+			 "FOR EACH ROW BEGIN " + "DECLARE msg varchar(255);" +"IF NEW.rating < 1 OR NEW.rating > 5 THEN "+
+			 "   SET msg = 'Constraints violated!';" + " SIGNAL sqlstate '45000'    set message_text = msg;"+
+			 "END IF; END;";
+	 
+	 
+	 Statement stmt = null;
+     try {
+         stmt = conn.createStatement();
+         stmt.execute(expCommUpdTrig);
+     } catch (SQLException e) {
+        System.err.println("Connection error occured!");
+        
+        //Extra debug info
+        System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
+     } finally {
+         if (stmt != null) { 
+            stmt.close(); 
+            }
+     }
+ }
+ 
   //Function to Create A RenterComment Table
  public void createRenterCommentTable() throws SQLException {
     
@@ -408,7 +561,7 @@ public class TableSetup {
     
     //Database credentials
     final String USER = "root";
-    final String PASS = ""; //Insert Password Here
+    final String PASS = "bamboo10"; //Insert Password Here
     System.out.println("Connecting to database...");
     
     //Establish connection
@@ -420,9 +573,11 @@ public class TableSetup {
      TableSetup myTableSetup = new TableSetup(dbClassName, CONNECTION, myconn);
      
      
-     //TODO: Create All Tables
+     //TODO: Create All Tables and triggers...in right order.
      //CreateUserTable
      myTableSetup.createUserTable();
+     myTableSetup.createUserInsTrigger();
+     myTableSetup.createUserUpdTrigger();
      myTableSetup.createRenterTable();
      myTableSetup.createHostTable();
      myTableSetup.createListingTable();
@@ -431,6 +586,8 @@ public class TableSetup {
      myTableSetup.createListingAvailabilityTable();
      myTableSetup.createBookingTable();
      myTableSetup.createExperienceCommentTable();
+     myTableSetup.createExpCommInsTrigger();
+     myTableSetup.createExpCommUpdTrigger();
      myTableSetup.createRenterCommentTable();
      
      

@@ -8,6 +8,31 @@ create table User
 	UNIQUE (uaddr));
 
 
+delimiter |
+CREATE TRIGGER UserIns BEFORE INSERT ON User
+FOR EACH ROW BEGIN
+DECLARE msg varchar(255);
+IF YEAR(NEW.dob) > 1998 THEN
+SET msg = 'Constraints violated!';
+SIGNAL sqlstate '45000' set message_text = msg;
+END IF;
+END 
+|
+delimiter ;
+
+delimiter |
+CREATE TRIGGER UserUpd BEFORE UPDATE ON User
+FOR EACH ROW BEGIN
+DECLARE msg varchar(255);
+IF YEAR(NEW.dob) > 1998 THEN 
+SET msg = 'Constraints violated!';
+SIGNAL sqlstate '45001' set message_text = msg;
+END IF;
+END
+|
+delimiter ;
+
+
 create table Renter
 	(sin int(9) NOT NULL,
 	creditCard int(16) NOT NULL UNIQUE,
@@ -59,6 +84,31 @@ create table ExperienceComment
 	comment varchar(256) NOT NULL,
 	rating int CHECK(rating >= 1 AND rating <= 5),
 	PRIMARY KEY (sin, lid));
+
+//Java syntax is a litte different
+delimiter |
+CREATE TRIGGER expCommIns BEFORE INSERT ON ExperienceComment
+FOR EACH ROW BEGIN
+DECLARE msg varchar(255);
+IF NEW.rating < 1 OR NEW.rating > 5 THEN
+SET msg = 'Constraints violated! - expCommIns';
+SIGNAL sqlstate '45000' set message_text = msg;
+END IF;
+END 
+|
+delimiter ;
+
+delimiter |
+CREATE TRIGGER expCommUpd BEFORE UPDATE ON ExperienceComment
+FOR EACH ROW BEGIN
+DECLARE msg varchar(255);
+IF NEW.rating < 1 OR NEW.rating > 5 THEN
+SET msg = 'Constraints violated! - expCommUpd';
+SIGNAL sqlstate '45001' set message_text = msg;
+END IF;
+END
+|
+delimiter ;
 
 create table RenterComment
 	(host_sin int(9) NOT NULL REFERENCES Host(sin),
