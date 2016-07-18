@@ -392,17 +392,16 @@ public class TableDrop {
      
      
      //Drop All Tables and triggers...in right order.
-     //DropUserTable
-     myTableDrop.dropUserTable();
-     myTableDrop.dropRenterTable();
-     myTableDrop.dropHostTable();
-     myTableDrop.dropListingTable();
-     myTableDrop.dropAmenitiesTable();
-     myTableDrop.dropListingAmenitiesTable();
-     myTableDrop.dropListingAvailabilityTable();
-     myTableDrop.dropBookingTable();
-     myTableDrop.dropExperienceCommentTable();
      myTableDrop.dropRenterCommentTable();
+     myTableDrop.dropExperienceCommentTable();
+     myTableDrop.dropBookingTable();
+     myTableDrop.dropListingAvailabilityTable();
+     myTableDrop.dropListingAmenitiesTable();
+     myTableDrop.dropAmenitiesTable();
+     myTableDrop.dropListingTable();
+     myTableDrop.dropHostTable();
+     myTableDrop.dropRenterTable();
+     myTableDrop.dropUserTable();
      
      
      System.out.println("Closing connection...");
