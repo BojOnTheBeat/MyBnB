@@ -166,7 +166,6 @@ public class TableSetup {
     
     String CreateHostString =    
         "create table Host" + "(sin int(9) NOT NULL, " +
-        "lid int NOT NULL REFERENCES Listing(lid)," +
         "FOREIGN KEY (sin) REFERENCES User(sin) ON UPDATE CASCADE ON DELETE CASCADE);";
     Statement stmt = null;
          try {
@@ -561,7 +560,7 @@ public class TableSetup {
     
     //Database credentials
     final String USER = "root";
-    final String PASS = "bamboo10"; //Insert Password Here
+    final String PASS = ""; //Insert Password Here
     System.out.println("Connecting to database...");
     
     //Establish connection

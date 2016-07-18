@@ -14,6 +14,10 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		CommandLine commandLine = new CommandLine();
+		if (commandLine.startSession() && commandLine.execute()) {
+			commandLine.endSession();
+		}
 
 	}
 

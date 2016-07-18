@@ -54,6 +54,55 @@ public class CommandLine {
 		sqlMngr = null;
 		sc = null;
 	}
+	
+	/* Function that executes an infinite loop and activates the respective 
+     * functionality according to user's choice. At each time it also outputs
+     * the menu of core functionalities supported from our application.
+     */
+	public boolean execute() {
+		if (sc != null && sqlMngr != null) {
+			System.out.println("");
+			System.out.println("***************************");
+			System.out.println("******ACCESS GRANTED*******");
+			System.out.println("***************************");
+			System.out.println("");
+			
+			String input = "";
+			int choice = -1;
+			do {
+				menu(); //Print Menu
+				input = sc.nextLine();
+				try {
+					choice = Integer.parseInt(input);
+					switch (choice) { //Activate the desired functionality
+					case 1:
+						this.createHostProfile();
+						break;
+					case 2:
+						this.createRenterProfile();
+						break;
+					case 3:
+						this.signInAsHost();
+						break;
+					case 4:
+						this.signInAsRenter();
+						break;
+					default:
+						break;
+					}
+				} catch (NumberFormatException e) {
+					input = "-1";
+				}
+			} while (input.compareTo("0") != 0);
+			
+			return true;
+		} else {
+			System.out.println("");
+			System.out.println("Connection could not been established! Bye!");
+			System.out.println("");
+			return false;
+		}
+	}
 
 	
 	//Private functions
