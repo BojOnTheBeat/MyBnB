@@ -1,5 +1,7 @@
 package actualApp;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 /**
  * @author 2943644
  *
@@ -78,15 +80,15 @@ public class CommandLine {
 					case 1:
 						this.createHostProfile();
 						break;
-					case 2:
-						this.createRenterProfile();
-						break;
-					case 3:
-						this.signInAsHost();
-						break;
-					case 4:
-						this.signInAsRenter();
-						break;
+//					case 2:
+//						this.createRenterProfile();
+//						break;
+//					case 3:
+//						this.signInAsHost();
+//						break;
+//					case 4:
+//						this.signInAsRenter();
+//						break;
 					default:
 						break;
 					}
@@ -105,7 +107,7 @@ public class CommandLine {
 	}
 
 	
-	//Private functions
+	//Private functions	
 	
 	// Called during the initialization of an instance of the current class
     // in order to retrieve from the user the credentials with which our program
@@ -128,6 +130,24 @@ public class CommandLine {
 		System.out.println("3. Sign in as Host");
 		System.out.println("4. Sign in as Renter");
 		System.out.println("0. Exit");
+		
+	}
+	
+	// Function to create Host
+	private void createHostProfile() {
+		System.out.print("Enter your name: ");
+		String name = sc.nextLine();
+		System.out.print("Enter your SIN: ");
+		String sin = sc.nextLine();
+		System.out.print("Enter your address: ");
+		String addr = sc.nextLine();
+		System.out.print("Enter your date of birth in the following format YYYY-MM-DD: ");
+		String dob = sc.nextLine();
+		System.out.print("Enter your occupation: ");
+		String occu = sc.nextLine();
+		
+		sqlMngr.createHost(name, sin, addr, dob, occu);
+		
 		
 	}
 	
