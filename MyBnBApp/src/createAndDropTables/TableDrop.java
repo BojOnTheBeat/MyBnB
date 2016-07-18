@@ -34,6 +34,23 @@ public class TableDrop {
              stmt.executeUpdate(DropUserString);
          } catch (SQLException e) {
             System.err.println("Connection error occured!");
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
+            
+            
          } finally {
              if (stmt != null) { 
                 stmt.close(); 
