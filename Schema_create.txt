@@ -40,7 +40,6 @@ create table Renter
 
 create table Host
 	(sin int(9) NOT NULL,
-	lid int NOT NULL REFERENCES Listing(lid),
 	FOREIGN KEY (sin) REFERENCES User(sin) ON UPDATE CASCADE ON DELETE CASCADE);
 
 create table Listing
