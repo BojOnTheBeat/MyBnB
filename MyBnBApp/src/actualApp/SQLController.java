@@ -98,8 +98,8 @@ public class SQLController {
 			// user exists if count > 0
 			if (count == 0) {
 				// add user if it does not exist
-				query = "INSERT INTO User (sin, name, uaddr, dob, occupation) VALUES (" +
-				sin + ", " + name + ", " + addr + ", " + dob + ", " + occu + ");";
+				query = "INSERT INTO User (sin, name, uaddr, dob, occupation) VALUES ('" +
+				sin + "', '" + name + "', '" + addr + "', '" + dob + "', '" + occu + "');";
 				Statement stmt = null;
 		        try {
 		            stmt = conn.createStatement();
@@ -155,7 +155,7 @@ public class SQLController {
 			// user exists if count > 0
 			if (count == 0) {
 				// add user if it does not exist
-				String hostQuery = "INSERT INTO Host (sin) VALUES (" + sin + ");";
+				String hostQuery = "INSERT INTO Host (sin) VALUES ('" + sin + "');";
 				Statement stmt = null;
 		        try {
 		            stmt = conn.createStatement();
