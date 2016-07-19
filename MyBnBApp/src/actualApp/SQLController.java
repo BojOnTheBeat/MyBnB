@@ -128,9 +128,9 @@ public class SQLController {
 		               stmt.close(); 
 		               }
 		        }
-		        System.out.print("User added");
+		        System.out.print("User added\n");
 			} else {
-				System.out.print("User already exists");
+				System.out.print("User already exists\n");
 			}
 		} catch (SQLException e) {
 		System.err.println("Exception triggered during create user exectuion!");
@@ -143,7 +143,7 @@ public class SQLController {
 			// creates user
 			createUser(name, sin, addr, dob, occu);
 			// creates host
-			String queryCheck = "Select * from User where sin = ?";
+			String queryCheck = "Select * from Host where sin = ?";
 			PreparedStatement ps = conn.prepareStatement(queryCheck);
 			ps.setString(1,  sin);
 			ResultSet resultSet = ps.executeQuery();
@@ -184,9 +184,9 @@ public class SQLController {
 		               stmt.close(); 
 		               }
 		        }
-		        System.out.print("Host created");
+		        System.out.print("Host created\n");
 			} else {
-				System.out.print("Host already exists");
+				System.out.print("Host already exists\n");
 			}
 		} catch (SQLException e) {
 			System.err.println("Exception triggered during create Host execution!");
