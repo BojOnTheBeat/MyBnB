@@ -57,6 +57,7 @@ public class SQLController {
 		}
 	}
 	
+<<<<<<< HEAD
 	//Controls the signInAsHost functionality
 	public Boolean signInAsHost(String sin){
 		String hostCheck = "SELECT count(*) from Host WHERE sin = ?";
@@ -82,6 +83,84 @@ public class SQLController {
 		
 		
 	}
+=======
+	private void createUser(String name, String sin, String addr, String dob, String occu) {
+		try {
+			String queryCheck = "Select * from User where sin = ?";
+			PreparedStatement ps = conn.prepareStatement(queryCheck);
+			ps.setString(1,  sin);
+			ResultSet resultSet = ps.executeQuery();
+			int count = 0;
+			if (resultSet.next()) {
+				 count = resultSet.getInt(1);
+			}
+			String query;
+			// user exists if count > 0
+			if (count < 0) {
+				// add user if it does not exist
+				query = "INSERT INTO User (name, sin, addr, dob, occu) VALUES ('" +
+				name + ", " + sin + ", " + addr + ", " + dob + ", " + occu + ");";
+				Statement stmt = null;
+		        try {
+		            stmt = conn.createStatement();
+		            stmt.executeUpdate(query);
+		        } catch (SQLException e) {
+		           System.err.println("Connection error occured!");
+		        } finally {
+		            if (stmt != null) { 
+		               stmt.close(); 
+		               }
+		        }
+		        System.out.print("User added");
+			} else {
+				System.out.print("User already exists");
+			}
+		} catch (SQLException e) {
+		System.err.println("Exception triggered during create user exectuion!");
+		e.printStackTrace();
+	}
+}
+	
+	public void createHost(String name, String sin, String addr, String dob, String occu) {
+		try {
+			// creates user
+			createUser(name, sin, addr, dob, occu);
+			// creates host
+			String queryCheck = "Select * from User where sin = ?";
+			PreparedStatement ps = conn.prepareStatement(queryCheck);
+			ps.setString(1,  sin);
+			ResultSet resultSet = ps.executeQuery();
+			int count = 0;
+			if (resultSet.next()) {
+				 count = resultSet.getInt(1);
+			}
+			String query;
+			// user exists if count > 0
+			if (count < 0) {
+				// add user if it does not exist
+				String hostQuery = "INSERT INTO Host (sin) VALUES (" + sin + ");";
+				Statement stmt = null;
+		        try {
+		            stmt = conn.createStatement();
+		            stmt.executeUpdate(hostQuery);
+		        } catch (SQLException e) {
+		           System.err.println("Connection error occured!");
+		        } finally {
+		            if (stmt != null) { 
+		               stmt.close(); 
+		               }
+		        }
+		        System.out.print("Host created");
+			} else {
+				System.out.print("Host already exists");
+			}
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during create Host execution!");
+		}
+
+	}
+	
+>>>>>>> db90d7d66850d579cdce39bf6e9ce2a9846d01ba
 
 	
 
