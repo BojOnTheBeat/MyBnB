@@ -84,7 +84,7 @@ public class SQLController {
 		
 	}
 
-private void createUser(String name, String sin, String addr, String dob, String occu) {
+	private void createUser(String name, String sin, String addr, String dob, String occu) {
 		try {
 			String queryCheck = "Select * from User where sin = ?";
 			PreparedStatement ps = conn.prepareStatement(queryCheck);
