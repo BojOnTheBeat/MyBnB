@@ -57,7 +57,7 @@ public class SQLController {
 		}
 	}
 	
-<<<<<<< HEAD
+
 	//Controls the signInAsHost functionality
 	public Boolean signInAsHost(String sin){
 		String hostCheck = "SELECT count(*) from Host WHERE sin = ?";
@@ -83,8 +83,8 @@ public class SQLController {
 		
 		
 	}
-=======
-	private void createUser(String name, String sin, String addr, String dob, String occu) {
+
+private void createUser(String name, String sin, String addr, String dob, String occu) {
 		try {
 			String queryCheck = "Select * from User where sin = ?";
 			PreparedStatement ps = conn.prepareStatement(queryCheck);
@@ -160,7 +160,6 @@ public class SQLController {
 
 	}
 	
->>>>>>> db90d7d66850d579cdce39bf6e9ce2a9846d01ba
 
 	
 

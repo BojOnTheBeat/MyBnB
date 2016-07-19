@@ -133,7 +133,6 @@ public class CommandLine {
 		
 	}
 	
-<<<<<<< HEAD
 	//Function to "3. sign in as a host"
 	private void signInAsHost() {
 		String sin = "";
@@ -145,8 +144,8 @@ public class CommandLine {
 		}else{
 			//display main menu
 		}
-=======
-	// Function to create Host
+
+		// Function to create Host
 	private void createHostProfile() {
 		System.out.print("Enter your name: ");
 		String name = sc.nextLine();
@@ -160,9 +159,7 @@ public class CommandLine {
 		String occu = sc.nextLine();
 		
 		sqlMngr.createHost(name, sin, addr, dob, occu);
-		
->>>>>>> db90d7d66850d579cdce39bf6e9ce2a9846d01ba
-		
+				
 	}
 	
 	
