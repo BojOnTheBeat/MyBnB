@@ -131,6 +131,20 @@ public class CommandLine {
 		
 	}
 	
+	//Function to "3. sign in as a host"
+	private void signInAsHost() {
+		String sin = "";
+		System.out.println("To sign in, enter your SIN (9 characters)");
+		sin = sc.nextLine();
+		Boolean signIn = sqlMngr.signInAsHost(sin); //Pass in SIN number
+		if (signIn){
+			//display host menu options
+		}else{
+			//display main menu
+		}
+		
+	}
+	
 	
 	
 

@@ -57,6 +57,31 @@ public class SQLController {
 		}
 	}
 	
+	//Controls the signInAsHost functionality
+	public Boolean signInAsHost(String sin){
+		String hostCheck = "SELECT count(*) from Host WHERE sin = ?";
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(hostCheck);
+			ps.setString(1, sin);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				System.out.println("SIN exists, thanks for signing in");
+				return true;
+			}
+			else{
+				System.out.println("SIN not found, Host doesn't exist");
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println("Sign in as host failed");
+			return false;
+		}
+		
+		
+	}
 
 	
 

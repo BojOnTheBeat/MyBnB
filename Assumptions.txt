@@ -6,3 +6,6 @@ Assume Prices are always ints(no decimals or floats)
 Assume 2016 is current year (so 18+ is <= 1998. We judge age by year alone, not months)
 If unemployed, set occupation to 'unemployed'...can't be null
 CreditCard# is 16 digits
+
+Each user has a unique address.
+
