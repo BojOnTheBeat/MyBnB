@@ -141,8 +141,10 @@ public class CommandLine {
 		Boolean signIn = sqlMngr.signInAsHost(sin); //Pass in SIN number
 		if (signIn){
 			//display host menu options
+			
 		}else{
-			//display main menu
+			//menu(); //main menu?
+		}
 		}
 
 		// Function to create Host

@@ -96,16 +96,33 @@ public class SQLController {
 			}
 			String query;
 			// user exists if count > 0
-			if (count < 0) {
+			if (count == 0) {
 				// add user if it does not exist
-				query = "INSERT INTO User (name, sin, addr, dob, occu) VALUES ('" +
-				name + ", " + sin + ", " + addr + ", " + dob + ", " + occu + ");";
+				query = "INSERT INTO User (sin, name, uaddr, dob, occupation) VALUES (" +
+				sin + ", " + name + ", " + addr + ", " + dob + ", " + occu + ");";
 				Statement stmt = null;
 		        try {
 		            stmt = conn.createStatement();
 		            stmt.executeUpdate(query);
 		        } catch (SQLException e) {
 		           System.err.println("Connection error occured!");
+		           
+		         //**EXTRA ERROR INFO FOR DEBUGGING**
+		       	e.printStackTrace(System.err);
+		           System.err.println("SQLState: " +
+		               ((SQLException)e).getSQLState());
+
+		           System.err.println("Error Code: " +
+		               ((SQLException)e).getErrorCode());
+
+		           System.err.println("Message: " + e.getMessage());
+
+		           Throwable t = e.getCause();
+		           while(t != null) {
+		               System.out.println("Cause: " + t);
+		               t = t.getCause();
+		           }
+		           
 		        } finally {
 		            if (stmt != null) { 
 		               stmt.close(); 
@@ -136,7 +153,7 @@ public class SQLController {
 			}
 			String query;
 			// user exists if count > 0
-			if (count < 0) {
+			if (count == 0) {
 				// add user if it does not exist
 				String hostQuery = "INSERT INTO Host (sin) VALUES (" + sin + ");";
 				Statement stmt = null;
@@ -145,6 +162,23 @@ public class SQLController {
 		            stmt.executeUpdate(hostQuery);
 		        } catch (SQLException e) {
 		           System.err.println("Connection error occured!");
+		           
+		         //**EXTRA ERROR INFO FOR DEBUGGING**
+		       	e.printStackTrace(System.err);
+		           System.err.println("SQLState: " +
+		               ((SQLException)e).getSQLState());
+
+		           System.err.println("Error Code: " +
+		               ((SQLException)e).getErrorCode());
+
+		           System.err.println("Message: " + e.getMessage());
+
+		           Throwable t = e.getCause();
+		           while(t != null) {
+		               System.out.println("Cause: " + t);
+		               t = t.getCause();
+		           }
+		           
 		        } finally {
 		            if (stmt != null) { 
 		               stmt.close(); 
