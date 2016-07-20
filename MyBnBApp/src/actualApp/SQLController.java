@@ -99,16 +99,15 @@ public class SQLController {
 			if (resultSet.next()) {
 				 count = resultSet.getInt(1);
 			}
-			String query;
 			// user exists if count > 0
 			if (count == 0) {
 				// add user if it does not exist
-				query = "INSERT INTO User (sin, name, uaddr, dob, occupation) VALUES ('" +
+				String userQuery = "INSERT INTO User (sin, name, uaddr, dob, occupation) VALUES ('" +
 				sin + "', '" + name + "', '" + addr + "', '" + dob + "', '" + occu + "');";
 				Statement stmt = null;
 		        try {
 		            stmt = conn.createStatement();
-		            stmt.executeUpdate(query);
+		            stmt.executeUpdate(userQuery);
 		        } catch (SQLException e) {
 		           System.err.println("Connection error occured!");
 		           
@@ -156,7 +155,6 @@ public class SQLController {
 			if (resultSet.next()) {
 				 count = resultSet.getInt(1);
 			}
-			String query;
 			// user exists if count > 0
 			if (count == 0) {
 				// add user if it does not exist
@@ -199,25 +197,124 @@ public class SQLController {
 
 	}
 	
+	public void createRenter(String name, String sin, String addr, String dob, String occu, String cc) {
+		try {
+			// creates user
+			createUser(name, sin, addr, dob, occu);
+			// creates renter
+			String queryCheck = "Select * from Renter where sin = ?";
+			PreparedStatement ps = conn.prepareStatement(queryCheck);
+			ps.setString(1,  sin);
+			ResultSet resultSet = ps.executeQuery();
+			int count = 0;
+			if (resultSet.next()) {
+				 count = resultSet.getInt(1);
+			}
+			// user exists if count > 0
+			if (count == 0) {
+				// add user if it does not exist
+				String renterQuery = "INSERT INTO Renter (sin) VALUES ('" + sin + "', " + cc + "');";
+				Statement stmt = null;
+		        try {
+		            stmt = conn.createStatement();
+		            stmt.executeUpdate(renterQuery);
+		        } catch (SQLException e) {
+		           System.err.println("Connection error occured!");
+		           
+		         //**EXTRA ERROR INFO FOR DEBUGGING**
+		       	e.printStackTrace(System.err);
+		           System.err.println("SQLState: " +
+		               ((SQLException)e).getSQLState());
+
+		           System.err.println("Error Code: " +
+		               ((SQLException)e).getErrorCode());
+
+		           System.err.println("Message: " + e.getMessage());
+
+		           Throwable t = e.getCause();
+		           while(t != null) {
+		               System.out.println("Cause: " + t);
+		               t = t.getCause();
+		           }
+		           
+		        } finally {
+		            if (stmt != null) { 
+		               stmt.close(); 
+		               }
+		        }
+		        System.out.print("Renter created\n");
+			} else {
+				System.out.print("Renter already exists\n");
+			}
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during create Host execution!");
+		}
+
+	}
+	
 	public void deleteHost(String sin){
 		String sql = "DELETE FROM Host " +
                 "WHERE sin = " + sin;
 		Statement stmt = null;
+		int count = 0;
 		try {
+			// checks if there is a renter
+			String queryCheck = "Select * from Renter where sin = ?";
+			PreparedStatement ps = conn.prepareStatement(queryCheck);
+			ps.setString(1,  sin);
+			ResultSet resultSet = ps.executeQuery();
+			if (resultSet.next()) {
+				 count = resultSet.getInt(1);
+			}
 			stmt = conn.createStatement();
 			stmt.executeUpdate(sql);
+			System.out.println("Host Deleted");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Error with deletion");
 		}
-		deleteUser(sin);
-		System.out.println("Host Deleted");
+		// if there is no renter with same sin delete the user as well
+		if (count == 0 ) {
+			deleteUser(sin);
+			System.out.println("User Deleted");
+		}
 	    
 	    
 	}
 	
-	public void deleteUser(String sin){
+	public void deleteRenter(String sin){
+		String sql = "DELETE FROM Renter " +
+                "WHERE sin = " + sin;
+		Statement stmt = null;
+		int count = 0;
+		try {
+			// checks if there is a renter
+			String queryCheck = "Select * from Host where sin = ?";
+			PreparedStatement ps = conn.prepareStatement(queryCheck);
+			ps.setString(1,  sin);
+			ResultSet resultSet = ps.executeQuery();
+			if (resultSet.next()) {
+				 count = resultSet.getInt(1);
+			}
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+			System.out.println("Renter Deleted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error with deletion");
+		}
+		// if there is no renter with same sin delete the user as well
+		if (count == 0 ) {
+			deleteUser(sin);
+			System.out.println("User Deleted");
+		}
+	    
+	    
+	}	
+	
+	private void deleteUser(String sin){
 		
 		String sql = "DELETE FROM User " +
                 "WHERE sin = " + sin;
