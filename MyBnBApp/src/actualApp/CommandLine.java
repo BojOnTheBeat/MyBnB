@@ -260,15 +260,17 @@ public class CommandLine {
 		String laddr = sc.nextLine();
 		System.out.print("Enter the postal code: ");
 		String post_code = sc.nextLine();
-		System.out.print("Enter the latitude(9 digits, 6 decimal places: ");
+		System.out.print("Enter the latitude(9 digits, 6 decimal places): ");
 		String lat = sc.nextLine();
-		System.out.print("Enter the longitude(9 digits, 6 decimal places: ");
+		System.out.print("Enter the longitude(9 digits, 6 decimal places): ");
 		String lon = sc.nextLine();
 		System.out.print("Enter the city: ");
 		String city = sc.nextLine();
 		System.out.print("Enter the country: ");
 		String country = sc.nextLine();
-		//sqlMngr. createListing here
+		sqlMngr. createListing(sin, type, laddr, post_code, lat, lon, city, country); //add to Listing table
+		
+		
 		//suggest price based on city...default is 50 but for cities in this list:
 		// [Los Angeles, New York, Cancun, San Francisco, Paris, Boston, Dubai] suggest a base price of $300
 		//For cities in [Madrid, Barcelona, Macau, Rome, Las Vegas] suggest a base price of $200
@@ -277,7 +279,7 @@ public class CommandLine {
 		
 		//create a function add amenities that prompts for an amenity, and when 
 		//the user selects an amenity, display expected revenue increase
-		//when user is done, they should type 0
+		//when user is done, they should type 0, also, find the lid of the of the current listing(do a query)
 		
 		//System.out.print("Enter the city: ");
 		//System.out.print("Enter the city: ");

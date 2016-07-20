@@ -88,6 +88,23 @@ public class SQLController {
 			return false;
 		}
 	}
+	
+	//Function to just add a new tuple to the listing table
+	public void createListing(String sin, String type, String laddr, String postal_code, String lat, String lon, String city, String country ){
+		String query;
+		
+		query = "INSERT INTO Listing(sin, type, laddr, postal_code, lat, lon, city country) VALUES ('"+
+		sin + "', '" + type + "', '" + laddr + "', '" + postal_code + "', '" + lat + "', '" + lon + "', '" + city + "', '" + country + "');" ;
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+		}catch (SQLException e){
+			System.err.println("Connection error occured!");
+			
+		}
+		
+	}
 
 	private void createUser(String name, String sin, String addr, String dob, String occu) {
 		try {
