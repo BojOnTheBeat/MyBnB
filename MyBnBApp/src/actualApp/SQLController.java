@@ -199,6 +199,38 @@ public class SQLController {
 
 	}
 	
+	public void deleteHost(String sin){
+		String sql = "DELETE FROM Host " +
+                "WHERE sin = " + sin;
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error with deletion");
+		}
+		deleteUser(sin);
+		System.out.println("Host Deleted");
+	    
+	    
+	}
+	
+	public void deleteUser(String sin){
+		
+		String sql = "DELETE FROM User " +
+                "WHERE sin = " + sin;
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	
 

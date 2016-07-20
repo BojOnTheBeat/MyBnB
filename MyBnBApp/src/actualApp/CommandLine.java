@@ -164,7 +164,8 @@ public class CommandLine {
 					host_choice = Integer.parseInt(host_in);
 					switch (host_choice) { //Activate the desired functionality
 					case 1:
-						this.deleteHostProfile();
+						this.deleteHostProfile(sin);
+						host_in = "0";//force us back to main menu
 						break;
 					case 2:
 						this.addListing();
@@ -224,8 +225,13 @@ public class CommandLine {
 				
 	}
 	
-	private void deleteHostProfile(){
-		
+	//Delete the host's profile...saving the sin he used to sign in
+	private void deleteHostProfile(String sin){
+		System.out.println("(Y/N) Are you sure you want to delete host profile with SIN:" + sin + "?");
+		String choice = sc.nextLine();
+		if(choice.compareToIgnoreCase("Y") == 0){
+			sqlMngr.deleteHost(sin);
+		}
 	}
 	
 	private void addListing(){
