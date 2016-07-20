@@ -168,13 +168,13 @@ public class CommandLine {
 						host_in = "0";//force us back to main menu
 						break;
 					case 2:
-						this.addListing();
+						this.addListing(sin);
 						break;
 					case 3:
-						this.deleteListing();
+						this.deleteListing(sin);
 						break;
 					case 4:
-						this.viewHostListings();
+						this.viewHostListings(sin);
 						break;
 					case 5:
 						this.viewBookings();
@@ -234,15 +234,70 @@ public class CommandLine {
 		}
 	}
 	
-	private void addListing(){
+	
+	private void listAmenities(){
+		System.out.println("wifi");
+		System.out.println("laundry");
+		System.out.println("kitchen");
+		System.out.println("air conditioning");
+		System.out.println("wheelchair access");
+		System.out.println("gym");
+		System.out.println("heating");
+		System.out.println("workspace");
+		System.out.println("24-hour checkin");
+		System.out.println("parking");
+		System.out.println("pool");
+		System.out.println("tv");
+		System.out.println("smoke detector");
 		
 	}
 	
-	private void deleteListing(){
+	//add a listing..associated with the signed in sin
+	private void addListing(String sin){
+		System.out.print("Enter the listing type: ");
+		String type = sc.nextLine();
+		System.out.print("Enter the listing address: ");
+		String laddr = sc.nextLine();
+		System.out.print("Enter the postal code: ");
+		String post_code = sc.nextLine();
+		System.out.print("Enter the latitude(9 digits, 6 decimal places: ");
+		String lat = sc.nextLine();
+		System.out.print("Enter the longitude(9 digits, 6 decimal places: ");
+		String lon = sc.nextLine();
+		System.out.print("Enter the city: ");
+		String city = sc.nextLine();
+		System.out.print("Enter the country: ");
+		String country = sc.nextLine();
+		//sqlMngr. createListing here
+		//suggest price based on city...default is 50 but for cities in this list:
+		// [Los Angeles, New York, Cancun, San Francisco, Paris, Boston, Dubai] suggest a base price of $300
+		//For cities in [Madrid, Barcelona, Macau, Rome, Las Vegas] suggest a base price of $200
+		// If not in either list, base price of $80...print suggestion later down
+		//when selecting availability calendar
+		
+		//create a function add amenities that prompts for an amenity, and when 
+		//the user selects an amenity, display expected revenue increase
+		//when user is done, they should type 0
+		
+		//System.out.print("Enter the city: ");
+		//System.out.print("Enter the city: ");
+		//System.out.print("Enter the city: ");
+		//System.out.print("Enter the city: ");
+
+
+
+
+
+
+		
 		
 	}
 	
-	private void viewHostListings(){
+	private void deleteListing(String sin){
+		
+	}
+	
+	private void viewHostListings(String sin){
 		
 	}
 	
