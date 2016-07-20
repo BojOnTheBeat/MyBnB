@@ -225,12 +225,40 @@ public class CommandLine {
 				
 	}
 	
+		// Function to create Renter
+	private void createRenterProfile() {
+		System.out.print("Enter your name: ");
+		String name = sc.nextLine();
+		System.out.print("Enter your SIN: ");
+		String sin = sc.nextLine();
+		System.out.print("Enter your address: ");
+		String addr = sc.nextLine();
+		System.out.print("Enter your date of birth in the following format YYYY-MM-DD: ");
+		String dob = sc.nextLine();
+		System.out.print("Enter your occupation: ");
+		String occu = sc.nextLine();
+		System.out.print("Enter your credit card #: ");
+		String cc = sc.nextLine();
+		
+		sqlMngr.createRenter(name, sin, addr, dob, occu, cc);
+				
+	}
+	
 	//Delete the host's profile...saving the sin he used to sign in
 	private void deleteHostProfile(String sin){
 		System.out.println("(Y/N) Are you sure you want to delete host profile with SIN:" + sin + "?");
 		String choice = sc.nextLine();
 		if(choice.compareToIgnoreCase("Y") == 0){
 			sqlMngr.deleteHost(sin);
+		}
+	}
+	
+	//Delete the renter's profile...saving the sin he used to sign in
+	private void deleteRenterProfile(String sin){
+		System.out.println("(Y/N) Are you sure you want to delete host profile with SIN:" + sin + "?");
+		String choice = sc.nextLine();
+		if(choice.compareToIgnoreCase("Y") == 0){
+			sqlMngr.deleteRenter(sin);
 		}
 	}
 	
