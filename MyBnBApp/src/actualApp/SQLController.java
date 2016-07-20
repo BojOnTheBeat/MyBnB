@@ -345,6 +345,39 @@ public class SQLController {
 		}
 		
 	}
+	
+	public String getLidFromAddr(String laddr){
+		String sql = "SELECT lid FROM Listin WHERE Listing.laddr = '" + laddr +"'";
+		Statement stmt = null;
+		String ret = "";
+		try{
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){
+				int lid = rs.getInt("lid");
+				ret = Integer.toString(lid);
+				
+			}
+			rs.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	//Adds a new tuple to the ListingAmenity table 
+	public void addListingAmenity(String lid, String aid){
+		String add = "INSERT INTO ListingAmenity (lid, aid) VALUES ('" +
+				lid + "', '" + aid + "');";
+				Statement stmt = null;
+		        try {
+		            stmt = conn.createStatement();
+		            stmt.executeUpdate(add);
+		        } catch (SQLException e) {
+		           System.err.println("Connection error occured!");
+		        }
+	}
 
 	
 

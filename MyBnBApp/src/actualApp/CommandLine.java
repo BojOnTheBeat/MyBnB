@@ -264,19 +264,19 @@ public class CommandLine {
 	
 	
 	private void listAmenities(){
-		System.out.println("wifi");
-		System.out.println("laundry");
-		System.out.println("kitchen");
-		System.out.println("air conditioning");
-		System.out.println("wheelchair access");
-		System.out.println("gym");
-		System.out.println("heating");
-		System.out.println("workspace");
-		System.out.println("24-hour checkin");
-		System.out.println("parking");
-		System.out.println("pool");
-		System.out.println("tv");
-		System.out.println("smoke detector");
+		System.out.println("1. wifi");
+		System.out.println("2. laundry");
+		System.out.println("3. kitchen");
+		System.out.println("4. air conditioning");
+		System.out.println("5. wheelchair access");
+		System.out.println("6. gym");
+		System.out.println("7. heating");
+		System.out.println("8. workspace");
+		System.out.println("9. 24-hour checkin");
+		System.out.println("10. parking");
+		System.out.println("11. pool");
+		System.out.println("12. tv");
+		System.out.println("13. smoke detector");
 		
 	}
 	
@@ -297,6 +297,7 @@ public class CommandLine {
 		System.out.print("Enter the country: ");
 		String country = sc.nextLine();
 		sqlMngr.createListing(sin, type, laddr, post_code, lat, lon, city, country); //add to Listing table
+		this.addAmenities(laddr);
 		
 		
 		//suggest price based on city...default is 50 but for cities in this list:
@@ -305,20 +306,94 @@ public class CommandLine {
 		// If not in either list, base price of $80...print suggestion later down
 		//when selecting availability calendar
 		
-		//create a function add amenities that prompts for an amenity, and when 
-		//the user selects an amenity, display expected revenue increase
-		//when user is done, they should type 0, also, find the lid of the of the current listing(do a query)
 		
 		//System.out.print("Enter the city: ");
 		//System.out.print("Enter the city: ");
 		//System.out.print("Enter the city: ");
 		//System.out.print("Enter the city: ");
-
-
-
-
-
-
+		
+		
+	}
+	
+	private void addAmenities(String laddr){
+		String lid;
+		System.out.println("These are the amenities we currently support:\n");
+		listAmenities();
+		
+		
+		//
+		lid = sqlMngr.getLidFromAddr(laddr);//lid of the listing we're adding amenities to
+		
+		String input = "";
+		int choice = -1;
+		do {
+			System.out.println("Select an amenity");
+			input = sc.nextLine();
+			try{
+				choice = Integer.parseInt(input);
+				switch (choice) {
+				
+				case 1:
+					System.out.println("Adding wifi gets you an expected $40 revenue increase!");
+					sqlMngr.addListingAmenity(lid, "1");
+					break;
+				case 2:
+					System.out.println("Adding laundry gets you an expected $5 revenue increase!");
+					sqlMngr.addListingAmenity(lid, "2");
+					break;
+				case 3:
+					System.out.println("Adding kitchen facilities gets you an expected $40 revenue increase!");
+					sqlMngr.addListingAmenity(lid, "3");
+					break;
+				case 4:
+					System.out.println("Adding air conditioning gets you an expected $20 revenue increase!");
+					sqlMngr.addListingAmenity(lid, "4");
+					break;
+				case 5:
+					System.out.println("Adding wheelchair access gets you an expected $10 increase!");
+					sqlMngr.addListingAmenity(lid, "5");
+					break;
+				case 6:
+					System.out.println("Adding a gym gets you an expected $30 increase!");
+					sqlMngr.addListingAmenity(lid, "6");
+					break;
+				case 7:
+					System.out.println("Adding heating gets you an expected $20 increase!");
+					sqlMngr.addListingAmenity(lid, "7");
+					break;
+				case 8:
+					System.out.println("Adding a workspace gets you an expected $10 increase!");
+					sqlMngr.addListingAmenity(lid, "8");
+					break;
+				case 9:
+					System.out.println("Adding 24-hour chekin gets you an expected $40 increase!");
+					sqlMngr.addListingAmenity(lid, "9");
+					break;
+				case 10:
+					System.out.println("Adding free parking gets you an expected $20 increase!");
+					sqlMngr.addListingAmenity(lid, "10");
+					break;
+				case 11:
+					System.out.println("Adding a pool gets you an expected $10 increase!");
+					sqlMngr.addListingAmenity(lid, "11");
+					break;
+				case 12:
+					System.out.println("Adding a tv gets you an expected $15 increase!");
+					sqlMngr.addListingAmenity(lid, "12");
+					break;
+				case 13:
+					System.out.println("Adding a smoke detector gets you an expected $5 increase!");
+					sqlMngr.addListingAmenity(lid, "12");
+					break;
+				default:
+					break;
+				
+				}
+			}catch(NumberFormatException e){
+				input = "-1";
+			}
+			
+		}while(input.compareTo("0") != 0);
 		
 		
 	}
