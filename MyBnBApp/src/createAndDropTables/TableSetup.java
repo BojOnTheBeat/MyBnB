@@ -206,6 +206,8 @@ public class TableSetup {
         "type varchar(32) NOT NULL," +
         "laddr varchar(50) NOT NULL," +
         "postal_code varchar(9) NOT NULL," +
+        "lat DECIMAL(9,6) NOT NULL,"+
+        "lon DECIMAL(9,6) NOT NULL,"+
         "city varchar(20) NOT NULL," +
         "country varchar(20) NOT NULL," +
         "UNIQUE (laddr)," +
@@ -246,6 +248,7 @@ public class TableSetup {
     String CreateAmenitiesString =    
         "create table Amenities" + "(aid int NOT NULL AUTO_INCREMENT," +
         "a_type varchar(50) NOT NULL," +
+        "rev_inc int NOT NULL," +
         "PRIMARY KEY (aid));";
     Statement stmt = null;
          try {
@@ -276,6 +279,49 @@ public class TableSetup {
          }
             
  }
+ 
+ //Function to populate our table with our supported amenities
+ public void populateAmenitiesTable() throws SQLException {
+	 Statement stmt = null;
+	    try {
+	      stmt = conn.createStatement();
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+	                         "VALUES('wifi', 40)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+                             "VALUES('laundry', 5)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+                  			 "VALUES('kitchen', 30)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+                  			 "VALUES('air conditioning', 20)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+	    		  			 "VALUES('wheelchair access', 10)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+                  			 "VALUES('gym', 30)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+                  			 "VALUES('heating',20)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+       			 			 "VALUES('workspace', 10)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+       			 			 "VALUES('24-hour checkin', 40)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+		  			 		 "VALUES('parking', 20)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+		 			 		 "VALUES('pool', 10)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+		 			 		 "VALUES('tv', 15)");
+	      stmt.executeUpdate("insert into Amenities(a_type,rev_inc) " +
+			 		 		 "VALUES('smoke detector', 5)");
+	      
+	    } catch (SQLException e) {
+	    	System.err.println("Connection error occured!");
+            e.printStackTrace(System.err);
+	    } finally {
+	      if (stmt != null) {
+	    	  stmt.close(); 
+	    	  }
+	    }
+	  }
+
  
   //Function to Create A ListingAmenities Table
  public void createListingAmenitiesTable() throws SQLException {
@@ -560,7 +606,7 @@ public class TableSetup {
     
     //Database credentials
     final String USER = "root";
-    final String PASS = ""; //Insert Password Here
+    final String PASS = "bamboo10"; //Insert Password Here
     System.out.println("Connecting to database...");
     
     //Establish connection
@@ -573,6 +619,7 @@ public class TableSetup {
      
      
      //TODO: Create All Tables and triggers...in right order.
+     //Also populate list of supported amenities
      //CreateUserTable
      myTableSetup.createUserTable();
      myTableSetup.createUserInsTrigger();
@@ -581,6 +628,7 @@ public class TableSetup {
      myTableSetup.createHostTable();
      myTableSetup.createListingTable();
      myTableSetup.createAmenitiesTable();
+     myTableSetup.populateAmenitiesTable();
      myTableSetup.createListingAmenitiesTable();
      myTableSetup.createListingAvailabilityTable();
      myTableSetup.createBookingTable();
