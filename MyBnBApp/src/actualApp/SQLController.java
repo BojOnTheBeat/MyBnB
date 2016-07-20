@@ -149,7 +149,7 @@ public class SQLController {
 		               stmt.close(); 
 		               }
 		        }
-		        System.out.print("User added\n");
+		        System.out.print("User created\n");
 			} else {
 				System.out.print("User already exists\n");
 			}
