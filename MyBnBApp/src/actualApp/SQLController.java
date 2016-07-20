@@ -66,22 +66,27 @@ public class SQLController {
 			ps = conn.prepareStatement(hostCheck);
 			ps.setString(1, sin);
 			ResultSet rs = ps.executeQuery();
+			int count = 0;
 			if(rs.next()) {
-				System.out.println("SIN exists, thanks for signing in");
+				count = rs.getInt(1);
+				
+			}
+			if (count > 0){
+				System.out.println("SIN exists, thanks for signing in\n");
 				return true;
+				
 			}
 			else{
-				System.out.println("SIN not found, Host doesn't exist");
+				System.out.println("Host with that SIN doesn't exist\n");
 				return false;
 			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.err.println("Sign in as host failed");
 			return false;
 		}
-		
-		
 	}
 
 	private void createUser(String name, String sin, String addr, String dob, String occu) {

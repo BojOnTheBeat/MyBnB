@@ -83,9 +83,9 @@ public class CommandLine {
 //					case 2:
 //						this.createRenterProfile();
 //						break;
-//					case 3:
-//						this.signInAsHost();
-//						break;
+					case 3:
+						this.signInAsHost();
+						break;
 //					case 4:
 //						this.signInAsRenter();
 //						break;
@@ -133,6 +133,20 @@ public class CommandLine {
 		
 	}
 	
+	private static void host_menu(){
+		System.out.println("**********HOST MENU**********");
+		System.out.println("1. Delete My Host Profile");
+		System.out.println("2. Add a Listing");
+		System.out.println("3. Delete a Listing");
+		System.out.println("4. View My Listings");
+		System.out.println("5. View Bookings for Particular Listing");
+		System.out.println("6. Cancel A Booking");
+		System.out.println("7. Add available dates to a listing");
+		System.out.println("8. Remove available dates for a listing");
+		System.out.println("9. Comment and Rate a renter");
+		System.out.println("0. Exit");
+	}
+	
 	//Function to "3. sign in as a host"
 	private void signInAsHost() {
 		String sin = "";
@@ -140,10 +154,56 @@ public class CommandLine {
 		sin = sc.nextLine();
 		Boolean signIn = sqlMngr.signInAsHost(sin); //Pass in SIN number
 		if (signIn){
-			//display host menu options
+			String host_in = "";
+			int host_choice = -1;
+			do{
+				host_menu();
+				
+				host_in = sc.nextLine();
+				try {
+					host_choice = Integer.parseInt(host_in);
+					switch (host_choice) { //Activate the desired functionality
+					case 1:
+						this.deleteHostProfile();
+						break;
+					case 2:
+						this.addListing();
+						break;
+					case 3:
+						this.deleteListing();
+						break;
+					case 4:
+						this.viewHostListings();
+						break;
+					case 5:
+						this.viewBookings();
+						break;
+					case 6:
+						this.cancelBooking();
+						break;
+					case 7:
+						this.addAvailableDates();
+						//add prices for each date too
+						break;
+					case 8:
+						this.removeAvailableDates();
+						break;
+					case 9:
+						this.commentAndRateRenter();
+						break;
+					default:
+						break;
+					}
+				} catch (NumberFormatException e) {
+					host_in = "-1";
+				}
+			} while (host_in.compareTo("0") != 0);
+		
+	
 			
 		}else{
-			//menu(); //main menu?
+			System.out.println("Create A Profile first");
+			
 		}
 		}
 
@@ -162,6 +222,42 @@ public class CommandLine {
 		
 		sqlMngr.createHost(name, sin, addr, dob, occu);
 				
+	}
+	
+	private void deleteHostProfile(){
+		
+	}
+	
+	private void addListing(){
+		
+	}
+	
+	private void deleteListing(){
+		
+	}
+	
+	private void viewHostListings(){
+		
+	}
+	
+	private void viewBookings(){
+		
+	}
+	
+	private void cancelBooking(){
+		
+	}
+	
+	private void addAvailableDates(){
+		
+	}
+	
+	private void removeAvailableDates(){
+		
+	}
+	
+	private void commentAndRateRenter(){
+		
 	}
 	
 	
