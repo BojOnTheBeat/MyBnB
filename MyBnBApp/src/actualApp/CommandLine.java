@@ -7,6 +7,7 @@ import java.sql.ResultSet;
  *
  */
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -282,6 +283,7 @@ public class CommandLine {
 	
 	//add a listing..associated with the signed in sin
 	private void addListing(String sin){
+		
 		System.out.print("Enter the listing type: ");
 		String type = sc.nextLine();
 		System.out.print("Enter the listing address: ");
@@ -297,31 +299,65 @@ public class CommandLine {
 		System.out.print("Enter the country: ");
 		String country = sc.nextLine();
 		sqlMngr.createListing(sin, type, laddr, post_code, lat, lon, city, country); //add to Listing table
-		this.addAmenities(laddr);
-		
-		
-		//suggest price based on city...default is 50 but for cities in this list:
-		// [Los Angeles, New York, Cancun, San Francisco, Paris, Boston, Dubai] suggest a base price of $300
-		//For cities in [Madrid, Barcelona, Macau, Rome, Las Vegas] suggest a base price of $200
-		// If not in either list, base price of $80...print suggestion later down
-		//when selecting availability calendar
-		
-		
-		//System.out.print("Enter the city: ");
-		//System.out.print("Enter the city: ");
-		//System.out.print("Enter the city: ");
-		//System.out.print("Enter the city: ");
+		this.suggestBasePrice(city, type); // Function that suggests a base price based on city and listing type
+		this.addAmenities(laddr); //add as many amenities as user wants
 		
 		
 	}
 	
+	private void suggestBasePrice(String city, String type){
+		
+		int sug_price = 50;//default
+		List<String>top_tier = new ArrayList<String>(); //top tier cities. Base price is $200 
+		List<String>second_tier = new ArrayList<String>(); //second tier cities. Base price is $100
+		
+		top_tier.add("Los Angeles");
+		top_tier.add("New York");
+		top_tier.add("Cancun");
+		top_tier.add("San Francisco");
+		top_tier.add("Rome");
+		top_tier.add("Paris");
+		top_tier.add("Boston");
+		top_tier.add("Dubai");
+		
+		second_tier.add("Toronto");
+		second_tier.add("Barcelona");
+		second_tier.add("Las Vegas");
+		second_tier.add("Vancouver");
+		second_tier.add("Chicago");
+		
+		
+		if(top_tier.contains(city)){
+			sug_price = 200;
+		}
+		if(second_tier.contains(city)){
+			sug_price = 100;
+		}
+		
+		if(type == "room"){
+			sug_price+=10;
+		}else if(type == "apartment"){
+			sug_price+=40;
+		}else{//full house
+			sug_price +=80;
+		}
+		
+		System.out.println("\n");
+		System.out.println("***************************");
+		System.out.println("***************************");
+		System.out.println("***************************");
+		System.out.println("Based On your city and listing type\n");
+		System.out.println("We suggest a base price of: ");
+		System.out.println(sug_price);
+		
+	}
+	
+	//Helper for addListing. This is part of the host toolkit and adds amenities
 	private void addAmenities(String laddr){
 		String lid;
 		System.out.println("These are the amenities we currently support:\n");
 		listAmenities();
 		
-		
-		//
 		lid = sqlMngr.getLidFromAddr(laddr);//lid of the listing we're adding amenities to
 		
 		String input = "";
@@ -338,7 +374,7 @@ public class CommandLine {
 					sqlMngr.addListingAmenity(lid, "1");
 					break;
 				case 2:
-					System.out.println("Adding laundry gets you an expected $5 revenue increase!");
+					System.out.println("Adding laundry facilities gets you an expected $5 revenue increase!");
 					sqlMngr.addListingAmenity(lid, "2");
 					break;
 				case 3:
