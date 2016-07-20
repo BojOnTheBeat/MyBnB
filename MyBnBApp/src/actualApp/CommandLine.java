@@ -148,6 +148,17 @@ public class CommandLine {
 		System.out.println("0. Exit");
 	}
 	
+	private static void renter_menu(){
+		System.out.println("**********RENTER MENU**********");
+		System.out.println("1. Delete My Renter Profile");
+		System.out.println("2. View Available Listings");
+		System.out.println("3. Book Listing");
+		System.out.println("4. View Booked Listing");
+		System.out.println("5. Cancel a Booked Listing");
+		System.out.println("6. Comment and Rate a Listing");
+		System.out.println("0. Exit");
+	}
+	
 	//Function to "3. sign in as a host"
 	private void signInAsHost() {
 		String sin = "";
@@ -178,20 +189,20 @@ public class CommandLine {
 						this.viewHostListings(sin);
 						break;
 					case 5:
-						this.viewBookings();
+						this.viewBookings(sin);
 						break;
 					case 6:
-						this.cancelBooking();
+						this.cancelBooking(sin);
 						break;
 					case 7:
-						this.addAvailableDates();
+						this.addAvailableDates(sin);
 						//add prices for each date too
 						break;
 					case 8:
-						this.removeAvailableDates();
+						this.removeAvailableDates(sin);
 						break;
 					case 9:
-						this.commentAndRateRenter();
+						this.commentAndRateRenter(sin);
 						break;
 					default:
 						break;
@@ -207,8 +218,58 @@ public class CommandLine {
 			System.out.println("Create A Profile first");
 			
 		}
+	}
+	
+	//Function to "4. sign in as a renter"
+	private void signInAsRenter() {
+		String sin = "";
+		System.out.println("To sign in, enter your SIN (9 characters)");
+		sin = sc.nextLine();
+		Boolean signIn = sqlMngr.signInAsRenter(sin); //Pass in SIN number
+		if (signIn){
+			String renter_in = "";
+			int renter_choice = -1;
+			do{
+				renter_menu();
+				
+				renter_in = sc.nextLine();
+				try {
+					renter_choice = Integer.parseInt(renter_in);
+					switch (renter_choice) { //Activate the desired functionality
+					case 1:
+						this.deleteRenterProfile(sin);
+						renter_in = "0";//force us back to main menu
+						break;
+					case 2:
+						this.viewListings(sin);
+						break;
+					case 3:
+						this.bookListing(sin);
+						break;
+					case 4:
+						this.viewBookedListings(sin);
+						break;
+					case 5:
+						this.cancelBookedListing(sin);
+						break;
+					case 6:
+						this.commentAndRateListing(sin);
+						break;
+					default:
+						break;
+					}
+				} catch (NumberFormatException e) {
+					renter_in = "-1";
+				}
+			} while (renter_in.compareTo("0") != 0);
+		
+	
+			
+		}else{
+			System.out.println("Create A Profile first");
+			
 		}
-
+	}
 		// Function to create Host
 	private void createHostProfile() {
 		System.out.print("Enter your name: ");
@@ -442,27 +503,60 @@ public class CommandLine {
 		
 	}
 	
-	private void viewBookings(){
+	private void viewBookings(String sin){
 		
 	}
 	
-	private void cancelBooking(){
+	private void cancelBooking(String sin){
 		
 	}
 	
-	private void addAvailableDates(){
+	private void addAvailableDates(String sin){
 		
 	}
 	
-	private void removeAvailableDates(){
+	private void removeAvailableDates(String sin){
 		
 	}
 	
-	private void commentAndRateRenter(){
+	private void commentAndRateRenter(String sin){
 		
 	}
-	
-	
-	
+
+	private void viewListings(String sin){
+		
+	}
+
+	private void bookListing(String sin){
+		List<String> dates = new ArrayList<String>();
+		System.out.println("Enter the listing id of the listing you want to book: ");
+		String lid = sc.nextLine();
+		String more = "Y";
+		
+		while (more == "Y") {
+			System.out.println("Enter the date you want to book: ");
+			String date = sc.nextLine();
+			dates.add(date);
+			System.out.println("Do you want to book another date for this listing (Y/N)?: ");
+			more = sc.nextLine();
+		}
+
+		for (String date: dates) {
+			sqlMngr.bookListing(sin, lid, date);
+		}		
+		
+	}
+
+	private void viewBookedListings(String sin){
+		
+	}
+
+	private void cancelBookedListing(String sin){
+		
+	}
+
+	private void commentAndRateListing(String sin){
+		
+	}
 
 }

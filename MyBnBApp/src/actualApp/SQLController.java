@@ -89,6 +89,37 @@ public class SQLController {
 		}
 	}
 	
+	//Controls the signInAsRenter functionality
+	public Boolean signInAsRenter(String sin){
+		String hostCheck = "SELECT count(*) from Renter WHERE sin = ?";
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(hostCheck);
+			ps.setString(1, sin);
+			ResultSet rs = ps.executeQuery();
+			int count = 0;
+			if(rs.next()) {
+				count = rs.getInt(1);
+				
+			}
+			if (count > 0){
+				System.out.println("SIN exists, thanks for signing in\n");
+				return true;
+				
+			}
+			else{
+				System.out.println("Renter with that SIN doesn't exist\n");
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println("Sign in as renter failed");
+			return false;
+		}
+	}
+	
 	//Function to just add a new tuple to the listing table
 	public void createListing(String sin, String type, String laddr, String postal_code, String lat, String lon, String city, String country ){
 		String query;
@@ -379,6 +410,30 @@ public class SQLController {
 		        }
 	}
 
+	public void bookListing(String sin, String lid, String date) {
+		String book = "INSERT INTO Booking (sin, lid, date) VALUES ('" +
+				sin + "', '" + lid + "', '" + date + "');";
+		Statement stmt = null;
+        try {
+        	removeDate(lid, date);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(book);
+        } catch (SQLException e) {
+           System.err.println("Connection error occured!");
+        }
+	}
+	
+	private void removeDate(String lid, String date) {
+		String remove = "DELETE FROM ListingAvailbility" + 
+				"WHERE lid = " + lid + "AND date = " + date;
+		Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(remove);
+        } catch (SQLException e) {
+           System.err.println("Connection error occured!");
+        }
+	}
 	
 
 }
