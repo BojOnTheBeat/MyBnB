@@ -129,7 +129,7 @@ public class TableSetup {
     
     String CreateRenterString =    
         "create table Renter" + "(sin int(9) NOT NULL, " +
-        "creditCard int(16) NOT NULL UNIQUE," +
+        "creditCard varchar(16) NOT NULL UNIQUE," +
         "FOREIGN KEY (sin) REFERENCES User(sin) ON UPDATE CASCADE ON DELETE CASCADE);";
     Statement stmt = null;
          try {

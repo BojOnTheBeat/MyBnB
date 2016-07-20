@@ -35,7 +35,7 @@ delimiter ;
 
 create table Renter
 	(sin int(9) NOT NULL,
-	creditCard int(16) NOT NULL UNIQUE,
+	creditCard varchar(16) NOT NULL UNIQUE,
 	FOREIGN KEY (sin) REFERENCES User(sin) ON UPDATE CASCADE ON DELETE CASCADE);
 
 create table Host
@@ -58,7 +58,12 @@ create table Listing
 create table Amenities
 	(aid int NOT NULL AUTO_INCREMENT,
 	a_type varchar(50) NOT NULL,
+	rev_inc int NOT NULL,
 	PRIMARY KEY (aid));
+
+//Supported Amenities(and suggested price increases):
+//(Wifi, 40), (laundry, 5), (kitchen, 30), (Air conditioning, 20), (wheelchair access, 10), (gym, 30), (heating, 20), (workspace, 10)
+//(24-hour checkin, 40), (parking, 20), (pool, 10), (tv, 15), (smoke detector, 5)
 
 create table ListingAmenities
 	(lid int NOT NULL REFERENCES Listing(lid) ON DELETE CASCADE,

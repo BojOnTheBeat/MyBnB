@@ -80,9 +80,9 @@ public class CommandLine {
 					case 1:
 						this.createHostProfile();
 						break;
-//					case 2:
-//						this.createRenterProfile();
-//						break;
+					case 2:
+						this.createRenterProfile();
+						break;
 					case 3:
 						this.signInAsHost();
 						break;
@@ -220,7 +220,7 @@ public class CommandLine {
 		String dob = sc.nextLine();
 		System.out.print("Enter your occupation: ");
 		String occu = sc.nextLine();
-		
+			
 		sqlMngr.createHost(name, sin, addr, dob, occu);
 				
 	}
@@ -255,7 +255,7 @@ public class CommandLine {
 	
 	//Delete the renter's profile...saving the sin he used to sign in
 	private void deleteRenterProfile(String sin){
-		System.out.println("(Y/N) Are you sure you want to delete host profile with SIN:" + sin + "?");
+		System.out.println("(Y/N) Are you sure you want to delete renter profile with SIN:" + sin + "?");
 		String choice = sc.nextLine();
 		if(choice.compareToIgnoreCase("Y") == 0){
 			sqlMngr.deleteRenter(sin);
@@ -296,7 +296,7 @@ public class CommandLine {
 		String city = sc.nextLine();
 		System.out.print("Enter the country: ");
 		String country = sc.nextLine();
-		sqlMngr. createListing(sin, type, laddr, post_code, lat, lon, city, country); //add to Listing table
+		sqlMngr.createListing(sin, type, laddr, post_code, lat, lon, city, country); //add to Listing table
 		
 		
 		//suggest price based on city...default is 50 but for cities in this list:

@@ -230,7 +230,7 @@ public class SQLController {
 			// user exists if count > 0
 			if (count == 0) {
 				// add user if it does not exist
-				String renterQuery = "INSERT INTO Renter (sin) VALUES ('" + sin + "', " + cc + "');";
+				String renterQuery = "INSERT INTO Renter (sin, creditCard) VALUES ('" + sin + "', '" + cc + "');";
 				Statement stmt = null;
 		        try {
 		            stmt = conn.createStatement();
