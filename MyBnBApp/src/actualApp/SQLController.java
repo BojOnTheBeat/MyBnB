@@ -89,6 +89,37 @@ public class SQLController {
 		}
 	}
 	
+	//Controls the signInAsRenter functionality
+	public Boolean signInAsRenter(String sin){
+		String hostCheck = "SELECT count(*) from Renter WHERE sin = ?";
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(hostCheck);
+			ps.setString(1, sin);
+			ResultSet rs = ps.executeQuery();
+			int count = 0;
+			if(rs.next()) {
+				count = rs.getInt(1);
+				
+			}
+			if (count > 0){
+				System.out.println("SIN exists, thanks for signing in\n");
+				return true;
+				
+			}
+			else{
+				System.out.println("Renter with that SIN doesn't exist\n");
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println("Sign in as renter failed");
+			return false;
+		}
+	}
+	
 	//Function to just add a new tuple to the listing table
 	public void createListing(String sin, String type, String laddr, String postal_code, String lat, String lon, String city, String country ){
 		String query;
@@ -378,6 +409,7 @@ public class SQLController {
 		           System.err.println("Connection error occured!");
 		        }
 	}
+
 	
 	//adds a new tuple to the ListingAvailability table
 	public void addListingAvailability(String lid, String ldate, String price){
@@ -392,4 +424,64 @@ public class SQLController {
 		}
 	}
 
+	public void bookListing(String sin, String lid, String date) {
+		String book = "INSERT INTO Booking (sin, lid, date) VALUES ('" +
+				sin + "', '" + lid + "', '" + date + "');";
+		Statement stmt = null;
+        try {
+        	removeDate(lid, date);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(book);
+        } catch (SQLException e) {
+           System.err.println("Connection error occured!");
+        }
+	}
+	
+	private void removeDate(String lid, String date) {
+		String remove = "DELETE FROM ListingAvailbility" + 
+				"WHERE lid = " + lid + "AND date = " + date;
+		Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(remove);
+        } catch (SQLException e) {
+           System.err.println("Connection error occured!");
+        }
+	}
+
+	public void cancelBookedListing(String sin, String lid, String date) {
+		String cancel = "UPDATE Booking SET isCancelled='1' WHERE sin='" +
+				sin + "' AND lid='" + lid + "' AND date='" + date + "';";
+		Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(cancel);
+        } catch (SQLException e) {
+           System.err.println("Connection error occured!");
+        }
+	}
+
+	public void viewBookedListings(String sin) {
+		String query = "SELECT * FROM Booking WHERE sin='" + sin + "';";
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during Select execution!");
+			e.printStackTrace();
+		}
+	}
 }
