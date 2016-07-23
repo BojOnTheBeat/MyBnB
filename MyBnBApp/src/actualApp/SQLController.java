@@ -475,47 +475,96 @@ public class SQLController {
 		try {
 		String queryCheck = "SELECT * FROM ListingAvailability WHERE lid = ? AND ldate = ?";
 		PreparedStatement ps = conn.prepareStatement(queryCheck);
-		ps.setString(1,  sin);
+		ps.setString(1,  lid);
 		ps.setString(2, date);
 		ResultSet resultSet = ps.executeQuery();
 		int count = 0;
 		if (resultSet.next()) {
 			 count = resultSet.getInt(1);
 		}
-		if (count <0) {
+		if (count == 0) {
 			System.out.println("No listing with lid and/or date given");
 			return;
 		}
 		} catch (SQLException e) {
 			System.err.println("Connection error occured!");
+			
+			e.printStackTrace();
+			
+			//**EXTRA ERROR INFO FOR DEBUGGING**
+	        System.err.println("SQLState: " +
+	              ((SQLException)e).getSQLState());
+
+	        System.err.println("Error Code: " +
+	               ((SQLException)e).getErrorCode());
+
+	        System.err.println("Message: " + e.getMessage());
+
+	           Throwable t = e.getCause();
+	           while(t != null) {
+	               System.out.println("Cause: " + t);
+	               t = t.getCause();
+	           }
 		}
 		
-		String book = "INSERT INTO Booking (sin, lid, bdate) VALUES ('" +
+		String book = "INSERT INTO Booking (rsin, lid, bdate) VALUES ('" +
 				sin + "', '" + lid + "', '" + date + "');";
 		try {
 		Statement stmt = null;
-        	removeDate(lid, date);
+        	removeDate(lid, date); //set date to unavailable in ListingAvailability
             stmt = conn.createStatement();
             stmt.executeUpdate(book);
         } catch (SQLException e) {
            System.err.println("Connection error occured!");
+           e.printStackTrace();
+           
+         //**EXTRA ERROR INFO FOR DEBUGGING**
+           System.err.println("SQLState: " +
+               ((SQLException)e).getSQLState());
+
+           System.err.println("Error Code: " +
+               ((SQLException)e).getErrorCode());
+
+           System.err.println("Message: " + e.getMessage());
+
+           Throwable t = e.getCause();
+           while(t != null) {
+               System.out.println("Cause: " + t);
+               t = t.getCause();
+           }
+           
         }
 	}
 	
 	private void removeDate(String lid, String date) {
-		String remove = "UPDATE ListingAvailability SET isBooked='0'" + 
-				"WHERE lid = " + lid + "AND date = " + date;
+		String remove = "UPDATE ListingAvailability SET isAvailable='0'" + 
+				"WHERE lid = '" + lid + "' AND ldate = '" + date + "';";
 		Statement stmt = null;
         try {
             stmt = conn.createStatement();
             stmt.executeUpdate(remove);
         } catch (SQLException e) {
            System.err.println("Connection error occured!");
+           
+         //**EXTRA ERROR INFO FOR DEBUGGING**
+           System.err.println("SQLState: " +
+               ((SQLException)e).getSQLState());
+
+           System.err.println("Error Code: " +
+               ((SQLException)e).getErrorCode());
+
+           System.err.println("Message: " + e.getMessage());
+
+           Throwable t = e.getCause();
+           while(t != null) {
+               System.out.println("Cause: " + t);
+               t = t.getCause();
+           }
         }
 	}
 
 	public void cancelBookedListing(String sin, String lid, String date) {
-		String cancel = "UPDATE Booking SET isCancelled='1' WHERE sin='" +
+		String cancel = "UPDATE Booking SET isCancelled='1' WHERE rsin='" +
 				sin + "' AND lid='" + lid + "' AND date='" + date + "';";
 		Statement stmt = null;
         try {
@@ -527,7 +576,7 @@ public class SQLController {
 	}
 
 	public void viewBookedListings(String sin) {
-		String query = "SELECT * FROM Booking WHERE sin='" + sin + "';";
+		String query = "SELECT * FROM Booking WHERE rsin='" + sin + "';";
 		try {
 			ResultSet rs = st.executeQuery(query);
 			ResultSetMetaData rsmd = rs.getMetaData();

@@ -201,7 +201,7 @@ public class TableSetup {
  public void createListingTable() throws SQLException {
     
     String CreateListingString =    
-        "create table Listing" + " (host_sin int(9) NOT NULL REFERENCES User (sin)," +
+        "create table Listing" + " (host_sin int(9) NOT NULL REFERENCES Host (sin) ON DELETE CASCADE," +
         "lid int NOT NULL AUTO_INCREMENT," +
         "type varchar(32) NOT NULL," +
         "laddr varchar(50) NOT NULL," +

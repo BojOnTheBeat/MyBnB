@@ -87,9 +87,9 @@ public class CommandLine {
 					case 3:
 						this.signInAsHost();
 						break;
-//					case 4:
-//						this.signInAsRenter();
-//						break;
+					case 4:
+						this.signInAsRenter();
+						break;
 					default:
 						break;
 					}
@@ -345,7 +345,7 @@ public class CommandLine {
 	//add a listing..associated with the signed in sin
 	private void addListing(String sin){
 		
-		System.out.print("Enter the listing type(apartment,room or full house: ");
+		System.out.print("Enter the listing type(apartment,room or full house): ");
 		String type = sc.nextLine();
 		System.out.print("Enter the listing address: ");
 		String laddr = sc.nextLine();
