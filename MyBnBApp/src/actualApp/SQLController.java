@@ -626,7 +626,7 @@ public class SQLController {
 			int colNum = rsmd.getColumnCount();
 			System.out.println("");
 			for (int i = 0; i < colNum; i++) {
-				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t\t\t");
 			}
 			System.out.println("");
 			while(rs.next()) {
