@@ -544,7 +544,6 @@ public class CommandLine {
 	}
 
 	private void bookListing(String sin){
-		List<String> dates = new ArrayList<String>();
 		System.out.println("Enter the listing id of the listing you want to book: ");
 		String lid = sc.nextLine();
 		String more = "Y";
@@ -552,15 +551,10 @@ public class CommandLine {
 		while (more == "Y") {
 			System.out.println("Enter the date you want to book: ");
 			String date = sc.nextLine();
-			dates.add(date);
+			sqlMngr.bookListing(sin, lid, date);
 			System.out.println("Do you want to book another date for this listing (Y/N)?: ");
 			more = sc.nextLine();
 		}
-
-		for (String date: dates) {
-			sqlMngr.bookListing(sin, lid, date);
-		}		
-		
 	}
 
 	private void viewBookedListings(String sin){

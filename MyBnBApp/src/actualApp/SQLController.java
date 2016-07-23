@@ -20,8 +20,8 @@ public class SQLController {
     //connection with the MySQL backend.
 	private Connection conn = null;
     //Object which communicates with the SQL backend delivering to it the
-    //desired query from our application and returning the results of this
-    //execution the same way that are received from the SQL backend.
+    //desired query FROM our application and returning the results of this
+    //execution the same way that are received FROM the SQL backend.
 	private Statement st = null;
 	
     // Initialize current instance of this class.
@@ -60,7 +60,7 @@ public class SQLController {
 
 	//Controls the signInAsHost functionality
 	public Boolean signInAsHost(String sin){
-		String hostCheck = "SELECT count(*) from Host WHERE sin = ?";
+		String hostCheck = "SELECT count(*) FROM Host WHERE sin = ?";
 		PreparedStatement ps;
 		try {
 			ps = conn.prepareStatement(hostCheck);
@@ -91,7 +91,7 @@ public class SQLController {
 	
 	//Controls the signInAsRenter functionality
 	public Boolean signInAsRenter(String sin){
-		String hostCheck = "SELECT count(*) from Renter WHERE sin = ?";
+		String hostCheck = "SELECT count(*) FROM Renter WHERE sin = ?";
 		PreparedStatement ps;
 		try {
 			ps = conn.prepareStatement(hostCheck);
@@ -139,7 +139,7 @@ public class SQLController {
 
 	private void createUser(String name, String sin, String addr, String dob, String occu) {
 		try {
-			String queryCheck = "Select * from User where sin = ?";
+			String queryCheck = "SELECT * FROM User WHERE sin = ?";
 			PreparedStatement ps = conn.prepareStatement(queryCheck);
 			ps.setString(1,  sin);
 			ResultSet resultSet = ps.executeQuery();
@@ -195,7 +195,7 @@ public class SQLController {
 			// creates user
 			createUser(name, sin, addr, dob, occu);
 			// creates host
-			String queryCheck = "Select * from Host where sin = ?";
+			String queryCheck = "SELECT * FROM Host WHERE sin = ?";
 			PreparedStatement ps = conn.prepareStatement(queryCheck);
 			ps.setString(1,  sin);
 			ResultSet resultSet = ps.executeQuery();
@@ -250,7 +250,7 @@ public class SQLController {
 			// creates user
 			createUser(name, sin, addr, dob, occu);
 			// creates renter
-			String queryCheck = "Select * from Renter where sin = ?";
+			String queryCheck = "SELECT * FROM Renter WHERE sin=?";
 			PreparedStatement ps = conn.prepareStatement(queryCheck);
 			ps.setString(1,  sin);
 			ResultSet resultSet = ps.executeQuery();
@@ -307,7 +307,7 @@ public class SQLController {
 		int count = 0;
 		try {
 			// checks if there is a renter
-			String queryCheck = "Select * from Renter where sin = ?";
+			String queryCheck = "SELECT * FROM Renter WHERE sin = ?";
 			PreparedStatement ps = conn.prepareStatement(queryCheck);
 			ps.setString(1,  sin);
 			ResultSet resultSet = ps.executeQuery();
@@ -338,7 +338,7 @@ public class SQLController {
 		int count = 0;
 		try {
 			// checks if there is a renter
-			String queryCheck = "Select * from Host where sin = ?";
+			String queryCheck = "SELECT * FROM Host WHERE sin = ?";
 			PreparedStatement ps = conn.prepareStatement(queryCheck);
 			ps.setString(1,  sin);
 			ResultSet resultSet = ps.executeQuery();
@@ -348,7 +348,7 @@ public class SQLController {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(sql);
 			System.out.println("Renter Deleted");
-		} catch (SQLException e) {
+		} catch (SQLException e) {	
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Error with deletion");
@@ -425,10 +425,28 @@ public class SQLController {
 	}
 
 	public void bookListing(String sin, String lid, String date) {
-		String book = "INSERT INTO Booking (sin, lid, date) VALUES ('" +
+		try {
+		String queryCheck = "SELECT * FROM Listing WHERE lid=? AND ldate=?";
+		PreparedStatement ps = conn.prepareStatement(queryCheck);
+		ps.setString(1,  sin);
+		ps.setString(2, date);
+		ResultSet resultSet = ps.executeQuery();
+		int count = 0;
+		if (resultSet.next()) {
+			 count = resultSet.getInt(1);
+		}
+		if (count <0) {
+			System.out.println("No listing with lid and/or date given");
+			return;
+		}
+		} catch (SQLException e) {
+			System.err.println("Connection error occured!");
+		}
+		
+		String book = "INSERT INTO Booking (sin, lid, bdate) VALUES ('" +
 				sin + "', '" + lid + "', '" + date + "');";
+		try {
 		Statement stmt = null;
-        try {
         	removeDate(lid, date);
             stmt = conn.createStatement();
             stmt.executeUpdate(book);
@@ -480,7 +498,7 @@ public class SQLController {
 			}
 			rs.close();
 		} catch (SQLException e) {
-			System.err.println("Exception triggered during Select execution!");
+			System.err.println("Exception triggered during SELECT execution!");
 			e.printStackTrace();
 		}
 	}

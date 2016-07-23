@@ -404,10 +404,9 @@ public class TableSetup {
     String CreateBookingString =    
         "create table Booking" + "(rsin int(9) NOT NULL REFERENCES Renter(sin)," +
         "lid int NOT NULL REFERENCES Listing(lid)," +
-        "startDate date NOT NULL REFERENCES ListingAvailability(ldate)," +
-        "endDate date NOT NULL REFERENCES ListingAvailability(ldate)," +
+        "bdate date NOT NULL REFERENCES ListingAvailability(ldate)," +
         "isCancelled boolean DEFAULT 0," +
-        "PRIMARY KEY (rsin, startDate, endDate));";
+        "PRIMARY KEY (rsin, lid, bDate));";
     Statement stmt = null;
          try {
              stmt = conn.createStatement();
