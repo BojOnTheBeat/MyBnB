@@ -434,6 +434,40 @@ public class SQLController {
            System.err.println("Connection error occured!");
         }
 	}
-	
 
+	public void cancelBookedListing(String sin, String lid, String date) {
+		String cancel = "UPDATE Booking SET isCancelled='1' WHERE sin='" +
+				sin + "' AND lid='" + lid + "' AND date='" + date + "';";
+		Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(cancel);
+        } catch (SQLException e) {
+           System.err.println("Connection error occured!");
+        }
+	}
+
+	public void viewBookedListings(String sin) {
+		String query = "SELECT * FROM Booking WHERE sin='" + sin + "';";
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during Select execution!");
+			e.printStackTrace();
+		}
+	}
 }

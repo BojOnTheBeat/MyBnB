@@ -548,11 +548,18 @@ public class CommandLine {
 	}
 
 	private void viewBookedListings(String sin){
+		System.out.println("Here are you booked listings: ");
 		
+		sqlMngr.viewBookedListings(sin);
 	}
 
 	private void cancelBookedListing(String sin){
+		System.out.println("Enter the listing id of the listing you want to cancel: ");
+		String lid = sc.nextLine();
+		System.out.println("Enter the date that you would like to cancel: ");
+		String date = sc.nextLine();		
 		
+		sqlMngr.cancelBookedListing(sin, lid, date);
 	}
 
 	private void commentAndRateListing(String sin){
