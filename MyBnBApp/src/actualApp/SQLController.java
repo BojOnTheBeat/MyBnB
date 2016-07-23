@@ -124,7 +124,7 @@ public class SQLController {
 	public void createListing(String sin, String type, String laddr, String postal_code, String lat, String lon, String city, String country ){
 		String query;
 		
-		query = "INSERT INTO Listing(sin, type, laddr, postal_code, lat, lon, city country) VALUES ('"+
+		query = "INSERT INTO Listing(host_sin, type, laddr, postal_code, lat, lon, city, country) VALUES ('"+
 		sin + "', '" + type + "', '" + laddr + "', '" + postal_code + "', '" + lat + "', '" + lon + "', '" + city + "', '" + country + "');" ;
 		Statement stmt = null;
 		try {
@@ -132,6 +132,23 @@ public class SQLController {
 			stmt.executeUpdate(query);
 		}catch (SQLException e){
 			System.err.println("Connection error occured!");
+			
+			//**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
+			
+			
 			
 		}
 		
@@ -393,13 +410,28 @@ public class SQLController {
 			rs.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
+			
+			//**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
 		}
 		return ret;
 	}
 	
 	//Adds a new tuple to the ListingAmenity table 
 	public void addListingAmenity(String lid, String aid){
-		String add = "INSERT INTO ListingAmenity (lid, aid) VALUES ('" +
+		String add = "INSERT INTO ListingAmenities (lid, aid) VALUES ('" +
 				lid + "', '" + aid + "');";
 				Statement stmt = null;
 		        try {
@@ -407,6 +439,21 @@ public class SQLController {
 		            stmt.executeUpdate(add);
 		        } catch (SQLException e) {
 		           System.err.println("Connection error occured!");
+		           
+		         //**EXTRA ERROR INFO FOR DEBUGGING**
+		            System.err.println("SQLState: " +
+		                ((SQLException)e).getSQLState());
+
+		            System.err.println("Error Code: " +
+		                ((SQLException)e).getErrorCode());
+
+		            System.err.println("Message: " + e.getMessage());
+
+		            Throwable t = e.getCause();
+		            while(t != null) {
+		                System.out.println("Cause: " + t);
+		                t = t.getCause();
+		            }
 		        }
 	}
 

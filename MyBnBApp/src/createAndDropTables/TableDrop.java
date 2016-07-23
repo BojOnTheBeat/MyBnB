@@ -396,7 +396,7 @@ public class TableDrop {
     
     //Database credentials
     final String USER = "root";
-    final String PASS = ""; //Insert Password Here
+    final String PASS = "bamboo10"; //Insert Password Here
     System.out.println("Connecting to database...");
     
     //Establish connection
