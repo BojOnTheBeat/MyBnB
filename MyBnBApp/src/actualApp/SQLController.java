@@ -503,7 +503,7 @@ public class SQLController {
 	}
 	
 	private void removeDate(String lid, String date) {
-		String remove = "DELETE FROM ListingAvailability" + 
+		String remove = "UPDATE ListingAvailability SET isBooked='0'" + 
 				"WHERE lid = " + lid + "AND date = " + date;
 		Statement stmt = null;
         try {
