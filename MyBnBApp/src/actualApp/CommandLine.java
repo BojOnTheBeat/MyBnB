@@ -301,10 +301,26 @@ public class CommandLine {
 		sqlMngr.createListing(sin, type, laddr, post_code, lat, lon, city, country); //add to Listing table
 		this.suggestBasePrice(city, type); // Function that suggests a base price based on city and listing type
 		this.addAmenities(laddr); //add as many amenities as user wants
-		
+		this.addAvailability(laddr); //add dates and prices for each date.
+	}
+	
+	//Helper function to be used in addListing to add dates and prices.
+	private void addAvailability(String laddr){
+		String lid = sqlMngr.getLidFromAddr(laddr);
+		//infinite loop so that the host can add as many dates 
+		//as they want, and a corresponding price per date.
+		// Add a date and a price for that date: example: 25-06-06,80, type 0 when you're done		
+		System.out.println("Add one date(YYYY-MM-DD) and price, comma separated. Type 0 when done. Example: 2016-10-10,80\n");
+		String input = sc.nextLine();
+		while(input.compareTo("0") != 0){
+			String[] input_vals = input.split(",");
+			sqlMngr.addListingAvailability(lid, input_vals[0], input_vals[1]);//pass lid, date and price 
+			
+		}
 		
 	}
 	
+	//Helper function to suggest a Base Price to users
 	private void suggestBasePrice(String city, String type){
 		
 		int sug_price = 50;//default
@@ -348,7 +364,7 @@ public class CommandLine {
 		System.out.println("***************************");
 		System.out.println("Based On your city and listing type\n");
 		System.out.println("We suggest a base price of: ");
-		System.out.println(sug_price);
+		System.out.println("$" + sug_price);
 		
 	}
 	
@@ -363,7 +379,7 @@ public class CommandLine {
 		String input = "";
 		int choice = -1;
 		do {
-			System.out.println("Select an amenity");
+			System.out.println("Select an amenity: ");
 			input = sc.nextLine();
 			try{
 				choice = Integer.parseInt(input);
