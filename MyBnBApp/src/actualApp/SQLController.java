@@ -342,7 +342,6 @@ public class SQLController {
 		// if there is no renter with same sin delete the user as well
 		if (count == 0 ) {
 			deleteUser(sin);
-			System.out.println("User Deleted");
 		}
 	    
 	    
@@ -373,7 +372,6 @@ public class SQLController {
 		// if there is no renter with same sin delete the user as well
 		if (count == 0 ) {
 			deleteUser(sin);
-			System.out.println("User Deleted");
 		}
 	    
 	    
@@ -387,6 +385,7 @@ public class SQLController {
 		try {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(sql);
+			System.out.println("User Deleted");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -437,6 +436,7 @@ public class SQLController {
 		        try {
 		            stmt = conn.createStatement();
 		            stmt.executeUpdate(add);
+		            System.out.println("Amenity has been added");
 		        } catch (SQLException e) {
 		           System.err.println("Connection error occured!");
 		           
@@ -466,6 +466,7 @@ public class SQLController {
 		try{
 			stmt = conn.createStatement();
 			stmt.executeUpdate(add);
+			System.out.println("Listing is now added at given date and price");
 		}catch (SQLException e) {
 			System.err.println("Connection error occured!");
 		}
@@ -473,6 +474,7 @@ public class SQLController {
 
 	public void bookListing(String sin, String lid, String date) {
 		try {
+		// checks to see if listing is available at given date
 		String queryCheck = "SELECT * FROM ListingAvailability WHERE lid = ? AND ldate = ? AND isAvailable='1'";
 		PreparedStatement ps = conn.prepareStatement(queryCheck);
 		ps.setString(1,  lid);
@@ -488,11 +490,13 @@ public class SQLController {
 			return;
 		}
 		
+		// checks to see if listing has previously booked and canceled
 		String queryCheck2 = "SELECT * FROM Booking WHERE lid = ? AND bdate = ? AND isCancelled='1'";
+		
 		PreparedStatement ps2 = conn.prepareStatement(queryCheck2);
-		ps.setString(1,  lid);
-		ps.setString(2, date);
-		ResultSet resultSet2 = ps.executeQuery();
+		ps2.setString(1,  lid);
+		ps2.setString(2, date);
+		ResultSet resultSet2 = ps2.executeQuery();
 		int count2 = 0;
 		if (resultSet2.next()) {
 			 count2 = resultSet2.getInt(1);
@@ -503,6 +507,8 @@ public class SQLController {
 			Statement stmt = null;
 	        stmt = conn.createStatement();
 	        stmt.executeUpdate(readd);
+	        System.out.println("Listing is now re-booked");
+	        System.out.println(count2);
 			return;
 		}
 		
@@ -534,6 +540,7 @@ public class SQLController {
         	removeDate(lid, date); //set date to unavailable in ListingAvailability
             stmt = conn.createStatement();
             stmt.executeUpdate(book);
+            System.out.println("Listing is now booked");
         } catch (SQLException e) {
            System.err.println("Connection error occured!");
            e.printStackTrace();
@@ -564,6 +571,7 @@ public class SQLController {
         try {
             stmt = conn.createStatement();
             stmt.executeUpdate(remove);
+            System.out.println("Listing is no longer available");
         } catch (SQLException e) {
            System.err.println("Connection error occured!");
         }
@@ -575,6 +583,7 @@ public class SQLController {
         try {
             stmt = conn.createStatement();
             stmt.executeUpdate(remove);
+            System.out.println("Listing is now available");
         } catch (SQLException e) {
            System.err.println("Connection error occured!");
            
@@ -602,6 +611,7 @@ public class SQLController {
         try {
             stmt = conn.createStatement();
             stmt.executeUpdate(cancel);
+            System.out.println("This booked listing has been canceled");
             addDate(lid, date);
         } catch (SQLException e) {
            System.err.println("Connection error occured!");
@@ -629,6 +639,41 @@ public class SQLController {
 		} catch (SQLException e) {
 			System.err.println("Exception triggered during SELECT execution!");
 			e.printStackTrace();
+		}
+	}
+
+	public void commentAndRateListing(String sin, String lid, String comment, String rating) {
+
+		String queryCheck = "SELECT * FROM Booking WHERE rsin = ? AND lid = ? AND isCancelled='0'";
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(queryCheck);
+			ps.setString(1, sin);
+			ps.setString(2, lid);
+			ResultSet rs = ps.executeQuery();
+			int count = 0;
+			if(rs.next()) {
+				count = rs.getInt(1);
+				
+			}
+			// count > 0 means renter has booked this lid
+			if (count > 0) {
+				String experience = "INSERT INTO ExperienceComment (rsin, lid, comment, rating) VALUES ('" +
+						sin + "', '" + lid + "', '" + comment + "', '" + rating + ");";
+				Statement stmt = null;
+		        try {
+		            stmt = conn.createStatement();
+		            stmt.executeUpdate(experience);
+		            System.out.println("Comment and Rating added");
+		        } catch (SQLException e) {
+		           System.err.println("Connection error occured!");
+		        }
+				
+			} else { 
+				System.out.println("You cannot comment on a listing you have not booked");
+			}
+		} catch (SQLException e) {
+			System.err.println("Connection error occured!");
 		}
 	}
 }

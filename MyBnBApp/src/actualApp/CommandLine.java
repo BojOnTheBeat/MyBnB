@@ -578,7 +578,14 @@ public class CommandLine {
 	}
 
 	private void commentAndRateListing(String sin){
+		System.out.println("Enter the listing id of the listing you want to rate/comment: ");
+		String lid = sc.nextLine();
+		System.out.println("Enter the rating you wish to give(1-5): ");
+		String rating = sc.nextLine();
+		System.out.println("Enter your comment: ");
+		String comment = sc.nextLine();
 		
+		sqlMngr.commentAndRateListing(sin, lid, comment, rating);
 	}
 
 }
