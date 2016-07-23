@@ -378,7 +378,7 @@ public class SQLController {
 	}
 	
 	public String getLidFromAddr(String laddr){
-		String sql = "SELECT lid FROM Listin WHERE Listing.laddr = '" + laddr +"'";
+		String sql = "SELECT lid FROM Listing WHERE Listing.laddr = '" + laddr +"'";
 		Statement stmt = null;
 		String ret = "";
 		try{
@@ -426,7 +426,7 @@ public class SQLController {
 
 	public void bookListing(String sin, String lid, String date) {
 		try {
-		String queryCheck = "SELECT * FROM Listing WHERE lid=? AND ldate=?";
+		String queryCheck = "SELECT * FROM ListingAvailability WHERE lid = ? AND ldate = ?";
 		PreparedStatement ps = conn.prepareStatement(queryCheck);
 		ps.setString(1,  sin);
 		ps.setString(2, date);
@@ -456,7 +456,7 @@ public class SQLController {
 	}
 	
 	private void removeDate(String lid, String date) {
-		String remove = "DELETE FROM ListingAvailbility" + 
+		String remove = "DELETE FROM ListingAvailability" + 
 				"WHERE lid = " + lid + "AND date = " + date;
 		Statement stmt = null;
         try {
