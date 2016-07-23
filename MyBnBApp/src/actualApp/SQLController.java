@@ -410,6 +410,20 @@ public class SQLController {
 		        }
 	}
 
+	
+	//adds a new tuple to the ListingAvailability table
+	public void addListingAvailability(String lid, String ldate, String price){
+		String add = "INSERT INTO ListingAvailability  (lid, ldate, price) VALUES ('" +
+				lid + "', '" + ldate + "', '"+ price + "');";
+		Statement stmt = null;
+		try{
+			stmt = conn.createStatement();
+			stmt.executeUpdate(add);
+		}catch (SQLException e) {
+			System.err.println("Connection error occured!");
+		}
+	}
+
 	public void bookListing(String sin, String lid, String date) {
 		try {
 		String queryCheck = "SELECT * FROM Listing WHERE lid=? AND ldate=?";
