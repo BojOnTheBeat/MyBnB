@@ -473,7 +473,7 @@ public class SQLController {
 
 	public void bookListing(String sin, String lid, String date) {
 		try {
-		String queryCheck = "SELECT * FROM ListingAvailability WHERE lid = ? AND ldate = ?";
+		String queryCheck = "SELECT * FROM ListingAvailability WHERE lid = ? AND ldate = ? AND isAvailable='1'";
 		PreparedStatement ps = conn.prepareStatement(queryCheck);
 		ps.setString(1,  lid);
 		ps.setString(2, date);
@@ -482,10 +482,30 @@ public class SQLController {
 		if (resultSet.next()) {
 			 count = resultSet.getInt(1);
 		}
+
 		if (count == 0) {
 			System.out.println("No listing with lid and/or date given");
 			return;
 		}
+		
+		String queryCheck2 = "SELECT * FROM ListingAvailability WHERE lid = ? AND ldate = ? AND isAvailable='1'";
+		PreparedStatement ps2 = conn.prepareStatement(queryCheck2);
+		ps.setString(1,  sin);
+		ps.setString(2, date);
+		ResultSet resultSet2 = ps.executeQuery();
+		int count2 = 0;
+		if (resultSet.next()) {
+			 count2 = resultSet.getInt(1);
+		}
+		if (count2 > 0) {
+			String readd = "UPDATE Booking SET isCancelled='0'" + 
+					"WHERE lid = " + lid + "AND date = " + date;
+			Statement stmt = null;
+	        stmt = conn.createStatement();
+	        stmt.executeUpdate(readd);
+			return;
+		}
+		
 		} catch (SQLException e) {
 			System.err.println("Connection error occured!");
 			
@@ -539,6 +559,18 @@ public class SQLController {
 	private void removeDate(String lid, String date) {
 		String remove = "UPDATE ListingAvailability SET isAvailable='0'" + 
 				"WHERE lid = '" + lid + "' AND ldate = '" + date + "';";
+
+		Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(remove);
+        } catch (SQLException e) {
+           System.err.println("Connection error occured!");
+        }
+	}
+	private void addDate(String lid, String date) {
+		String remove = "UPDATE ListingAvailability SET isAvailable='1'" + 
+				"WHERE lid = '" + lid + "' AND ldate = '" + date + "';";
 		Statement stmt = null;
         try {
             stmt = conn.createStatement();
@@ -570,6 +602,7 @@ public class SQLController {
         try {
             stmt = conn.createStatement();
             stmt.executeUpdate(cancel);
+            addDate(lid, date);
         } catch (SQLException e) {
            System.err.println("Connection error occured!");
         }
