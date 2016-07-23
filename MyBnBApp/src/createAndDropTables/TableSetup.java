@@ -367,7 +367,7 @@ public class TableSetup {
         "create table ListingAvailability" + "(lid int NOT NULL REFERENCES Listing(lid) ON DELETE CASCADE," +
         "ldate date NOT NULL," +
         "price int NOT NULL," +
-        "isAvailable boolean DEFAULT 0," +
+        "isAvailable boolean DEFAULT 1," +
         "PRIMARY KEY(lid, ldate));";
     Statement stmt = null;
          try {
