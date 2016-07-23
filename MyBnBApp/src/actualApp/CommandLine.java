@@ -119,8 +119,8 @@ public class CommandLine {
 		cred[0] = sc.nextLine();
 		System.out.print("Password: ");
 		cred[1] = sc.nextLine();
-		System.out.print("Database: ");
-		cred[2] = sc.nextLine();
+		//System.out.print("Database: ");
+		cred[2] = "mydb?autoReconnect=true&useSSL=false";
 		return cred;
 	}
 	
@@ -345,7 +345,7 @@ public class CommandLine {
 	//add a listing..associated with the signed in sin
 	private void addListing(String sin){
 		
-		System.out.print("Enter the listing type: ");
+		System.out.print("Enter the listing type(apartment,room or full house: ");
 		String type = sc.nextLine();
 		System.out.print("Enter the listing address: ");
 		String laddr = sc.nextLine();
@@ -371,11 +371,16 @@ public class CommandLine {
 		//infinite loop so that the host can add as many dates 
 		//as they want, and a corresponding price per date.
 		// Add a date and a price for that date: example: 25-06-06,80, type 0 when you're done		
-		System.out.println("Add one date(YYYY-MM-DD) and price, comma separated. Type 0 when done. Example: 2016-10-10,80\n");
-		String input = sc.nextLine();
+		//System.out.println("Add one date(YYYY-MM-DD) and price, comma separated. Type 0 when done. Example: 2016-10-10,80\n");
+		String input = "";
 		while(input.compareTo("0") != 0){
-			String[] input_vals = input.split(",");
-			sqlMngr.addListingAvailability(lid, input_vals[0], input_vals[1]);//pass lid, date and price 
+			System.out.println("Add one date(YYYY-MM-DD) and price, comma separated. Type 0 when done. Example: 2016-10-10,80\n");
+			input = sc.nextLine();
+			if(input.compareTo("0")!= 0){
+				
+				String[] input_vals = input.split(",");
+				sqlMngr.addListingAvailability(lid, input_vals[0], input_vals[1]);//pass lid, date and price 
+			}
 			
 		}
 		

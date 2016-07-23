@@ -206,8 +206,8 @@ public class TableSetup {
         "type varchar(32) NOT NULL," +
         "laddr varchar(50) NOT NULL," +
         "postal_code varchar(9) NOT NULL," +
-        "lat DECIMAL(9,6) NOT NULL,"+
-        "lon DECIMAL(9,6) NOT NULL,"+
+        "lat DECIMAL(4,2) NOT NULL,"+
+        "lon DECIMAL(4,2) NOT NULL,"+
         "city varchar(20) NOT NULL," +
         "country varchar(20) NOT NULL," +
         "UNIQUE (laddr)," +
@@ -605,7 +605,7 @@ public class TableSetup {
     
     //Database credentials
     final String USER = "root";
-    final String PASS = ""; //Insert Password Here
+    final String PASS = "bamboo10"; //Insert Password Here
     System.out.println("Connecting to database...");
     
     //Establish connection
