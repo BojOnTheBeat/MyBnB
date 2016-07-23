@@ -429,7 +429,7 @@ public class CommandLine {
 		
 	}
 	
-	//Helper for addListing. This is part of the host toolkit and adds amenities
+	//Helper for addListing. This is part of the host toolkit and adds amenities and shows revenue expected increases.
 	private void addAmenities(String laddr){
 		String lid;
 		System.out.println("These are the amenities we currently support:\n");
