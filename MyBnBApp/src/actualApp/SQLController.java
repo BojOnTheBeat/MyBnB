@@ -482,10 +482,29 @@ public class SQLController {
 		if (resultSet.next()) {
 			 count = resultSet.getInt(1);
 		}
-		if (count <0) {
+		if (count < 0) {
 			System.out.println("No available listing with lid and/or date given");
 			return;
 		}
+		
+		String queryCheck2 = "SELECT * FROM ListingAvailability WHERE lid = ? AND ldate = ? AND isAvailable='1'";
+		PreparedStatement ps2 = conn.prepareStatement(queryCheck2);
+		ps.setString(1,  sin);
+		ps.setString(2, date);
+		ResultSet resultSet2 = ps.executeQuery();
+		int count2 = 0;
+		if (resultSet.next()) {
+			 count2 = resultSet.getInt(1);
+		}
+		if (count2 > 0) {
+			String readd = "UPDATE Booking SET isCancelled='0'" + 
+					"WHERE lid = " + lid + "AND date = " + date;
+			Statement stmt = null;
+	        stmt = conn.createStatement();
+	        stmt.executeUpdate(readd);
+			return;
+		}
+		
 		} catch (SQLException e) {
 			System.err.println("Connection error occured!");
 		}
