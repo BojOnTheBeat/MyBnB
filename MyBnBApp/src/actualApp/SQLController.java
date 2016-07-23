@@ -488,18 +488,18 @@ public class SQLController {
 			return;
 		}
 		
-		String queryCheck2 = "SELECT * FROM ListingAvailability WHERE lid = ? AND ldate = ? AND isAvailable='1'";
+		String queryCheck2 = "SELECT * FROM Booking WHERE lid = ? AND bdate = ? AND isCancelled='1'";
 		PreparedStatement ps2 = conn.prepareStatement(queryCheck2);
-		ps.setString(1,  sin);
+		ps.setString(1,  lid);
 		ps.setString(2, date);
 		ResultSet resultSet2 = ps.executeQuery();
 		int count2 = 0;
-		if (resultSet.next()) {
-			 count2 = resultSet.getInt(1);
+		if (resultSet2.next()) {
+			 count2 = resultSet2.getInt(1);
 		}
 		if (count2 > 0) {
 			String readd = "UPDATE Booking SET isCancelled='0'" + 
-					"WHERE lid = " + lid + "AND date = " + date;
+					"WHERE lid = '" + lid + "' AND bdate = '" + date + "';";
 			Statement stmt = null;
 	        stmt = conn.createStatement();
 	        stmt.executeUpdate(readd);
