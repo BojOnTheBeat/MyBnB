@@ -642,7 +642,7 @@ public class SQLController {
 
 	public void commentAndRateListing(String sin, String lid, String comment, String rating) {
 
-		String queryCheck = "SELECT * FROM Booking WHERE sin = ? AND lid = ? AND isCancelled='0'";
+		String queryCheck = "SELECT * FROM Booking WHERE rsin = ? AND lid = ? AND isCancelled='0'";
 		PreparedStatement ps;
 		try {
 			ps = conn.prepareStatement(queryCheck);
@@ -656,7 +656,7 @@ public class SQLController {
 			}
 			// count > 0 means renter has booked this lid
 			if (count > 0) {
-				String experience = "INSERT INTO ExperienceComment (rsin, lid, comment, rate) VALUES ('" +
+				String experience = "INSERT INTO ExperienceComment (rsin, lid, comment, rating) VALUES ('" +
 						sin + "', '" + lid + "', '" + comment + "', '" + rating + ");";
 				Statement stmt = null;
 		        try {
