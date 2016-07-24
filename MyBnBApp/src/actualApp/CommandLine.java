@@ -673,10 +673,10 @@ public class CommandLine {
 			}catch(NumberFormatException e){
 				sort_by = "-1";
 			}
-		}while(sort_by.compareTo("0") != 0 ||
-				sort_by.compareTo("1") != 0 ||
-				sort_by.compareTo("2") != 0 ||
-				sort_by.compareTo("3") != 0);
+		}while(sort_by.compareTo("0") == 0 ||
+				sort_by.compareTo("1") == 0 ||
+				sort_by.compareTo("2") == 0 ||
+				sort_by.compareTo("3") == 0);
 		
 		if (sort_by.compareTo("0") == 0) {
 			System.out.println("No sort selected. Exiting search");
