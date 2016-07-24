@@ -871,14 +871,14 @@ public class SQLController {
 
 	public void search(String lati, String longi, String post_code, String addr, String city, String sort_by,
 			String price_min, String price_max, String after_date, String before_date, ArrayList<String> amenities) {
-		String query = "SELECT lid, type, laddr, postal_code, city, country, ldate, price FROM Listing, ListingAvailabilities";
+		String query = "SELECT lid, type, laddr, postal_code, city, country, ldate, price FROM Listing, ListingAvailability";
 		
 		// for amenity filter
 		for (String amenity: amenities) {
 			query = query + ", ListingAmenitiy LA" + amenity;
 		}
 		
-		query = query + " WHERE Listing.lid=ListingAvailabilities.lid";
+		query = query + " WHERE Listing.lid=ListingAvailabilitity.lid";
 
 		for (String amenity: amenities) {
 			query = query + "=LA" + amenity;
