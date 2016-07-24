@@ -884,16 +884,6 @@ public class SQLController {
 			query = query + "=LA" + amenity;
 		}
 
-		// amenitiy filter
-		if (!amenities.isEmpty()) {
-			query = query + " (";
-			for (String amenity: amenities) {
-				query = query + "LA" + amenity + " = '" + amenity + "' AND ";
-			}
-			// gets rid of last "' AND "
-			query = query.substring(0, query.length()-5);
-			query = query + ")";
-		}
 		
 		// location based
 		if (lati.compareTo("-1") != 0) {
@@ -924,6 +914,17 @@ public class SQLController {
 			query = query + " AND ldate <= '" + before_date + "'";
 		}
 		
+
+		// Amenity filter
+		if (!amenities.isEmpty()) {
+			query = query + " AND (";
+			for (String amenity: amenities) {
+				query = query + "LA" + amenity + " = '" + amenity + "' AND ";
+			}
+			// gets rid of last "' AND "
+			query = query.substring(0, query.length()-5);
+			query = query + ")";
+		}
 		
 		// sort by
 		if (sort_by.compareTo("1") == 0) {
