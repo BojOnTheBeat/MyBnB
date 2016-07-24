@@ -606,7 +606,7 @@ public class SQLController {
 
 	public void cancelBookedListing(String sin, String lid, String date) {
 		String cancel = "UPDATE Booking SET isCancelled='1' WHERE rsin='" +
-				sin + "' AND lid='" + lid + "' AND date='" + date + "';";
+				sin + "' AND lid='" + lid + "' AND bdate='" + date + "';";
 		Statement stmt = null;
         try {
             stmt = conn.createStatement();
@@ -675,5 +675,40 @@ public class SQLController {
 		} catch (SQLException e) {
 			System.err.println("Connection error occured!");
 		}
+	}
+
+	public void commentAndRateRenter(String sin, String rsin, String comment, String rating) {
+		String queryCheck = "SELECT rsin FROM Listing,Booking WHERE host_sin=? AND Listing.lid=Booking.lid AND rsin=? AND isCancelled='0'";
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(queryCheck);
+			ps.setString(1, sin);
+			ps.setString(2, rsin);
+			ResultSet rs = ps.executeQuery();
+			int count = 0;
+			if(rs.next()) {
+				count = rs.getInt(1);
+				
+			}
+			// count > 0 means renter has booked this lid
+			if (count > 0) {
+				String renter = "INSERT INTO RenterComment (host_sin, rsin, comment, rating) VALUES ('" +
+						sin + "', '" + rsin + "', '" + comment + "', '" + rating + ");";
+				Statement stmt = null;
+		        try {
+		            stmt = conn.createStatement();
+		            stmt.executeUpdate(renter);
+		            System.out.println("Comment and Rating added");
+		        } catch (SQLException e) {
+		           System.err.println("Connection error occured!");
+		        }
+				
+			} else { 
+				System.out.println("You cannot comment on a renter that has not booked your listing");
+			}
+		} catch (SQLException e) {
+			System.err.println("Connection error occured!");
+		}
+		
 	}
 }

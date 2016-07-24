@@ -561,7 +561,7 @@ public class TableSetup {
         "create table RenterComment" + "(host_sin int(9) NOT NULL REFERENCES Host(sin)," +
         "rsin int(9) NOT NULL REFERENCES Renter(sin)," +
         "comment varchar(256) NOT NULL," +
-        "lid int NOT NULL REFERENCES Listing(lid)," +
+        "rating int CHECK(rating >= 1 AND rating <= 5)," +
         "PRIMARY KEY (host_sin, lid));";
     Statement stmt = null;
          try {

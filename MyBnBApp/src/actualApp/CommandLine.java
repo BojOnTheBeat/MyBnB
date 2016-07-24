@@ -541,7 +541,14 @@ public class CommandLine {
 	}
 	
 	private void commentAndRateRenter(String sin){
+		System.out.println("Enter the renter sin you want to rate/comment: ");
+		String rsin = sc.nextLine();
+		System.out.println("Enter the rating you wish to give(1-5): ");
+		String rating = sc.nextLine();
+		System.out.println("Enter your comment: ");
+		String comment = sc.nextLine();
 		
+		sqlMngr.commentAndRateRenter(sin, rsin, comment, rating);
 	}
 
 	private void viewListings(String sin){
