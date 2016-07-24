@@ -673,10 +673,15 @@ public class CommandLine {
 			}catch(NumberFormatException e){
 				sort_by = "-1";
 			}
-		}while(sort_by.compareTo("0") != 0 ||
-				sort_by.compareTo("1") != 0 ||
-				sort_by.compareTo("2") != 0 ||
-				sort_by.compareTo("3") != 0);
+		}while(sort_by.compareTo("0") == 0 ||
+				sort_by.compareTo("1") == 0 ||
+				sort_by.compareTo("2") == 0 ||
+				sort_by.compareTo("3") == 0);
+		
+		if (sort_by.compareTo("0") == 0) {
+			System.out.println("No sort selected. Exiting search");
+			return;
+		}
 		
 		System.out.println("(Y/N) Would you like to add a price range?");
 		String price_range = sc.nextLine();
@@ -694,9 +699,9 @@ public class CommandLine {
 		String after_date = "-1";
 		String before_date = "-1";
 		if (date_range.compareToIgnoreCase("Y") == 0) {
-			System.out.println("Enter the date you want your listings to be after (-1 for no limit): ");
+			System.out.println("Enter the date you want your listings to be after(YYYY-MM-DD)(-1 for no limit): ");
 			after_date = sc.nextLine();
-			System.out.println("Enter the date you want your listings to be before (-1 for no limit): ");
+			System.out.println("Enter the date you want your listings to be before(YYYY-MM-DD)(-1 for no limit): ");
 			before_date = sc.nextLine();
 		}		
 		
