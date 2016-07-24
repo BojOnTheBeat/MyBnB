@@ -90,6 +90,8 @@ public class CommandLine {
 					case 4:
 						this.signInAsRenter();
 						break;
+					case 5:
+						this.runReports();
 					default:
 						break;
 					}
@@ -130,6 +132,7 @@ public class CommandLine {
 		System.out.println("2. Create a Renter Profile");
 		System.out.println("3. Sign in as Host");
 		System.out.println("4. Sign in as Renter");
+		System.out.println("5. Run Reports");
 		System.out.println("0. Exit");
 		
 	}
@@ -158,6 +161,48 @@ public class CommandLine {
 		System.out.println("5. Cancel a Booked Listing");
 		System.out.println("6. Comment and Rate a Listing");
 		System.out.println("0. Exit");
+	}
+	
+	private static void reports_menu(){
+		System.out.println("**********REPORTS MENU**********");
+		System.out.println("1. Total # of bookings in a date range by city");
+		System.out.println("2. Total # of bookings per country(and city)");
+		System.out.println("3. Rank hosts by total # of listings per country(and city)");
+		System.out.println("4. Rank the renters by # of bookings in a time period(per city)");
+		System.out.println("5. Hosts and Renters with large # of cancellations");
+		System.out.println("0. Exit");
+		
+	}
+	
+	//TODO: Function for "5. run reports"
+	private void runReports(){
+		String report_in = "";
+		int report_choice = -1;
+		do{
+			reports_menu();
+			
+			report_in = sc.nextLine();
+			try {
+				report_choice = Integer.parseInt(report_in);
+				switch (report_choice) { //Activate the desired functionality
+				case 1:
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				default:
+					break;
+				}
+			} catch (NumberFormatException e) {
+				report_in = "-1";
+			}
+		} while (report_in.compareTo("0") != 0);
+		
 	}
 	
 	//Function to "3. sign in as a host"
