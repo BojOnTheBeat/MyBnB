@@ -699,9 +699,9 @@ public class CommandLine {
 		String after_date = "-1";
 		String before_date = "-1";
 		if (date_range.compareToIgnoreCase("Y") == 0) {
-			System.out.println("Enter the date you want your listings to be after (-1 for no limit): ");
+			System.out.println("Enter the date you want your listings to be after(YYYY-MM-DD)(-1 for no limit): ");
 			after_date = sc.nextLine();
-			System.out.println("Enter the date you want your listings to be before (-1 for no limit): ");
+			System.out.println("Enter the date you want your listings to be before(YYYY-MM-DD)(-1 for no limit): ");
 			before_date = sc.nextLine();
 		}		
 		

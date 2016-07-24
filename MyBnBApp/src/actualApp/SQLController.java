@@ -871,8 +871,29 @@ public class SQLController {
 
 	public void search(String lati, String longi, String post_code, String addr, String city, String sort_by,
 			String price_min, String price_max, String after_date, String before_date, ArrayList<String> amenities) {
-		String query = "SELECT lid, type, laddr, postal_code, city, country, ldate, price FROM Listing, ListingAmeities, ListingAvailabilities WHERE " + 
-			"Listing.lid=ListingAmenities.lid=ListingAvailabilities.lid";
+		String query = "SELECT lid, type, laddr, postal_code, city, country, ldate, price FROM Listing, ListingAvailabilities";
+		
+		// for amenity filter
+		for (String amenity: amenities) {
+			query = query + ", ListingAmenitiy LA" + amenity;
+		}
+		
+		query = query + " WHERE Listing.lid=ListingAvailabilities.lid";
+
+		for (String amenity: amenities) {
+			query = query + "=LA" + amenity;
+		}
+
+		// amenitiy filter
+		if (!amenities.isEmpty()) {
+			query = query + " (";
+			for (String amenity: amenities) {
+				query = query + "LA" + amenity + " = '" + amenity + "' AND ";
+			}
+			// gets rid of last "' AND "
+			query = query.substring(0, query.length()-5);
+			query = query + ")";
+		}
 		
 		// location based
 		if (lati.compareTo("-1") != 0) {
@@ -880,21 +901,61 @@ public class SQLController {
 		} else if (post_code.compareTo("-1") != 0) {
 			
 		} else if (addr.compareTo("-1") != 0) {
-			query = query + "laddr='" + addr + "'";
+			query = query + "laddr = '" + addr + "'";
 		} else {
-			
+			query = query + "city = '" + city + "'";
 		}
+		
+		// price filter
+		if (price_min.compareTo("-1") != 0) {
+			query = query + " AND price >= '" + price_min + "'";
+		}
+		
+		if (price_max.compareTo("-1") != 0) {
+			query = query + " AND price <= '" + price_max + "'";
+		}
+		
+		// date filter
+		if (after_date.compareTo("-1") != 0) {
+			query = query + " AND ldate >= '" + after_date + "'";
+		}
+
+		if (before_date.compareTo("-1") != 0) {
+			query = query + " AND ldate <= '" + before_date + "'";
+		}
+		
 		
 		// sort by
 		if (sort_by.compareTo("1") == 0) {
 			// price ascending
+			query = query + " ORDER BY price";
 			
 		} else if (sort_by.compareTo("2") == 0) {
 			// price descending
+			query = query + "ORDER BY price DESC";
 		} else {
 			// distance
 		}
 		
-		
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during search execution!");
+			e.printStackTrace();
+		}
 	}
 }
