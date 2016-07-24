@@ -678,6 +678,11 @@ public class CommandLine {
 				sort_by.compareTo("2") != 0 ||
 				sort_by.compareTo("3") != 0);
 		
+		if (sort_by.compareTo("0") == 0) {
+			System.out.println("No sort selected. Exiting search");
+			return;
+		}
+		
 		System.out.println("(Y/N) Would you like to add a price range?");
 		String price_range = sc.nextLine();
 		String price_min = "-1";

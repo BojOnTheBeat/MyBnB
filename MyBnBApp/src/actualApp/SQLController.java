@@ -776,7 +776,7 @@ public class SQLController {
 	}
 
 	public void viewBookedListings(String sin) {
-		String query = "SELECT * FROM Booking WHERE rsin='" + sin + "' AND isCancelled='0';";
+		String query = "SELECT rsin, lid, bdate FROM Booking WHERE rsin='" + sin + "' AND isCancelled='0';";
 		try {
 			ResultSet rs = st.executeQuery(query);
 			ResultSetMetaData rsmd = rs.getMetaData();
@@ -816,7 +816,7 @@ public class SQLController {
 			// count > 0 means renter has booked this lid
 			if (count > 0) {
 				String experience = "INSERT INTO ExperienceComment (rsin, lid, comment, rating) VALUES ('" +
-						sin + "', '" + lid + "', '" + comment + "', '" + rating + ");";
+						sin + "', '" + lid + "', '" + comment + "', '" + rating + "');";
 				Statement stmt = null;
 		        try {
 		            stmt = conn.createStatement();
@@ -871,7 +871,30 @@ public class SQLController {
 
 	public void search(String lati, String longi, String post_code, String addr, String city, String sort_by,
 			String price_min, String price_max, String after_date, String before_date, ArrayList<String> amenities) {
-		// TODO Auto-generated method stub
+		String query = "SELECT lid, type, laddr, postal_code, city, country, ldate, price FROM Listing, ListingAmeities, ListingAvailabilities WHERE " + 
+			"Listing.lid=ListingAmenities.lid=ListingAvailabilities.lid";
+		
+		// location based
+		if (lati.compareTo("-1") != 0) {
+			
+		} else if (post_code.compareTo("-1") != 0) {
+			
+		} else if (addr.compareTo("-1") != 0) {
+			query = query + "laddr='" + addr + "'";
+		} else {
+			
+		}
+		
+		// sort by
+		if (sort_by.compareTo("1") == 0) {
+			// price ascending
+			
+		} else if (sort_by.compareTo("2") == 0) {
+			// price descending
+		} else {
+			// distance
+		}
+		
 		
 	}
 }
