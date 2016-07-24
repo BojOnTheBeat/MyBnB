@@ -48,8 +48,8 @@ create table Listing
 	type varchar(32) NOT NULL,
 	laddr varchar(50) NOT NULL,
 	postal_code varchar(9) NOT NULL,
-	lat DECIMAL(9,6) NOT NULL,
-	lon DECIMAL(9,6) NOT NULL,
+	lat DECIMAL(4,2) NOT NULL,
+	lon DECIMAL(4,2) NOT NULL,
 	city varchar(20) NOT NULL,
 	country varchar(20) NOT NULL,
 	UNIQUE (laddr),
@@ -121,7 +121,7 @@ create table RenterComment
 	rsin int(9) NOT NULL REFERENCES Renter(sin),
 	comment varchar(256) NOT NULL,
 	rating int CHECK(rating >= 1 AND rating <= 5),
-	PRIMARY KEY (host_sin, lid));
+	PRIMARY KEY (host_sin, rsin));
 
 
 
