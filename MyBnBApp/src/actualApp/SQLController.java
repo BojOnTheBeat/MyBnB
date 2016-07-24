@@ -640,7 +640,7 @@ public class SQLController {
 			int colNum = rsmd.getColumnCount();
 			System.out.println("");
 			for (int i = 0; i < colNum; i++) {
-				System.out.print(rsmd.getColumnLabel(i+1) + "\t \t");
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
 			}
 			System.out.println("");
 			while(rs.next()) {
@@ -850,7 +850,7 @@ public class SQLController {
 			// count > 0 means renter has booked this lid
 			if (count > 0) {
 				String renter = "INSERT INTO RenterComment (host_sin, rsin, comment, rating) VALUES ('" +
-						sin + "', '" + rsin + "', '" + comment + "', '" + rating + ");";
+						sin + "', '" + rsin + "', '" + comment + "', '" + rating + "');";
 				Statement stmt = null;
 		        try {
 		            stmt = conn.createStatement();

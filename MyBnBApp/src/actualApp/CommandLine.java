@@ -533,7 +533,7 @@ public class CommandLine {
 	}
 	
 	private void viewBookings(String sin){
-		System.out.println("These are all your listings: ");
+		System.out.println("These are all your booked Listings: ");
 		sqlMngr.viewBookingsByHost(sin);
 	}
 	
