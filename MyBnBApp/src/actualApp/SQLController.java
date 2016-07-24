@@ -869,7 +869,7 @@ public class SQLController {
 		
 	}
 
-	public void search(String lati, String longi, String post_code, String addr, String city, String sort_by,
+	public void search(String lati, String longi, String post_code, String addr, String country, String city, String sort_by,
 			String price_min, String price_max, String after_date, String before_date, ArrayList<String> amenities) {
 		String query = "SELECT Listing.lid, type, laddr, postal_code, city, country, ldate, price FROM Listing, ListingAvailability";
 		
@@ -893,7 +893,7 @@ public class SQLController {
 		} else if (addr.compareTo("-1") != 0) {
 			query = query + " AND laddr = '" + addr + "'";
 		} else {
-			query = query + " AND city = '" + city + "'";
+			query = query + " AND country = '" + country + "' AND city = '" + city + "'";
 		}
 		
 		// price filter
@@ -956,6 +956,115 @@ public class SQLController {
 			rs.close();
 		} catch (SQLException e) {
 			System.err.println("Exception triggered during search execution!");
+			e.printStackTrace();
+		}
+	}
+
+	public void viewListingDates(String lid) {
+		String dates = "SELECT Listing.lid, type, laddr, postal_code, city, country, ldate, price FROM Listing, ListingAvailability " +
+				"WHERE Listing.lid='" + lid + "'";
+
+		try {
+			ResultSet rs = st.executeQuery(dates);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during viewListingDates execution!");
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void viewListingAmenities(String lid) {
+		String amenities = "SELECT Listing.lid, type, laddr, postal_code, city, country, a_type FROM Listing, ListingAmenities, Amenities " +
+				"WHERE Listing.lid='" + lid + "'";
+
+
+		try {
+			ResultSet rs = st.executeQuery(amenities);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during viewListingAmenities execution!");
+			e.printStackTrace();
+		}
+	}
+
+	public void viewListingComments(String lid) {
+		String amenities = "SELECT rsin, lid, comment, rating FROM ExperienceComment " +
+				"WHERE lid='" + lid + "'";
+
+
+		try {
+			ResultSet rs = st.executeQuery(amenities);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during viewListingComments execution!");
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void viewRenterComments(String sin) {
+		String amenities = "SELECT rsin, comment, rating FROM RenterComment " +
+				"WHERE rsin='" + sin + "'";
+
+
+		try {
+			ResultSet rs = st.executeQuery(amenities);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during viewRenterComments execution!");
 			e.printStackTrace();
 		}
 	}

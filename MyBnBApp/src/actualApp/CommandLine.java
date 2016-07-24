@@ -149,6 +149,8 @@ public class CommandLine {
 		System.out.println("8. Remove available dates for a listing");
 		System.out.println("9. Comment and Rate a renter");
 		System.out.println("10. Change price for a particular date");
+		System.out.println("11. View Listing Dates");
+		System.out.println("12. View Listing Amenities");
 		System.out.println("0. Exit");
 	}
 	
@@ -160,6 +162,8 @@ public class CommandLine {
 		System.out.println("4. View Booked Listing");
 		System.out.println("5. Cancel a Booked Listing");
 		System.out.println("6. Comment and Rate a Listing");
+		System.out.println("7. View Listing Dates");
+		System.out.println("8. View Listing Amenities");
 		System.out.println("0. Exit");
 	}
 	
@@ -253,6 +257,18 @@ public class CommandLine {
 						break;
 					case 10:
 						this.changePriceForDate(sin);//done
+					case 11:
+						this.viewListingDates();//done
+						break;
+					case 12:
+						this.viewListingAmenities();//done
+						break;
+					case 13:
+						this.viewListingComments();
+						break;
+					case 14:
+						this.viewRenterComments();
+						break;
 					default:
 						break;
 					}
@@ -290,19 +306,28 @@ public class CommandLine {
 						renter_in = "0";//force us back to main menu
 						break;
 					case 2:
-						this.viewListings(sin);
+						this.viewListings();//done
 						break;
 					case 3:
-						this.bookListing(sin);
+						this.bookListing(sin);//done
 						break;
 					case 4:
-						this.viewBookedListings(sin);
+						this.viewBookedListings(sin);//done
 						break;
 					case 5:
-						this.cancelBookedListing(sin);
+						this.cancelBookedListing(sin);//done
 						break;
 					case 6:
-						this.commentAndRateListing(sin);
+						this.commentAndRateListing(sin);//done
+						break;
+					case 7:
+						this.viewListingDates();//done
+						break;
+					case 8:
+						this.viewListingAmenities();//done
+						break;
+					case 9:
+						this.viewListingComments();
 						break;
 					default:
 						break;
@@ -647,13 +672,14 @@ public class CommandLine {
 		sqlMngr.commentAndRateRenter(sin, rsin, comment, rating);
 	}
 
-	private void viewListings(String sin){
+	private void viewListings(){
 		System.out.println("(Y/N) Would you to search by latitude and longitude?");
 		String lati_longi = sc.nextLine();
 		String lati = "-1";
 		String longi = "-1";
 		String post_code = "-1";
 		String addr = "-1";
+		String country = "-1";
 		String city = "-1";
 		if (lati_longi.compareToIgnoreCase("Y") == 0) {
 			System.out.println("Enter the latitude: ");
@@ -673,9 +699,11 @@ public class CommandLine {
 					System.out.println("Enter the exact address");
 					addr = sc.nextLine();
 				} else {
-					System.out.println("(Y/N) Would you like to search by city?");
+					System.out.println("(Y/N) Would you like to search by country, city?");
 					String city_search = sc.nextLine();
 					if (city_search.compareToIgnoreCase("Y") == 0) {
+						System.out.println("Enter the country: ");
+						country = sc.nextLine();
 						System.out.println("Enter the city: ");
 						city = sc.nextLine();
 					} else {
@@ -880,7 +908,7 @@ public class CommandLine {
 			} while (amenity.compareTo("0") != 0);
 		}
 		
-		sqlMngr.search(lati, longi, post_code, addr, city, sort_by, price_min, price_max, after_date, before_date, amenities);
+		sqlMngr.search(lati, longi, post_code, addr, country, city, sort_by, price_min, price_max, after_date, before_date, amenities);
 	}
 
 	private void bookListing(String sin){
@@ -922,5 +950,32 @@ public class CommandLine {
 		
 		sqlMngr.commentAndRateListing(sin, lid, comment, rating);
 	}
+	
+	private void viewListingDates() {
+		System.out.println("Enter the listing id of the listing you want to view the dates of: ");
+		String lid = sc.nextLine();
+		
+		sqlMngr.viewListingDates(lid);
+	}
 
+	private void viewListingAmenities() {
+		System.out.println("Enter the listing id of the listing you want to view the amenities of: ");
+		String lid = sc.nextLine();
+		
+		sqlMngr.viewListingAmenities(lid);
+	}
+
+	private void viewListingComments() {
+		System.out.println("Enter the listing id of the listing you want to view the comments of: ");
+		String lid = sc.nextLine();
+		
+		sqlMngr.viewListingComments(lid);
+	}
+
+	private void viewRenterComments() {
+		System.out.println("Enter the renter sin of the listing you want to view the comments of: ");
+		String sin = sc.nextLine();
+		
+		sqlMngr.viewRenterComments(sin);
+	}
 }
