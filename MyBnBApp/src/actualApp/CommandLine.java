@@ -180,13 +180,13 @@ public class CommandLine {
 						host_in = "0";//force us back to main menu
 						break;
 					case 2:
-						this.addListing(sin);
+						this.addListing(sin); //done
 						break;
 					case 3:
-						this.deleteListing(sin);
+						this.deleteListing(sin);//done
 						break;
 					case 4:
-						this.viewHostListings(sin);
+						this.viewHostListings(sin);//done
 						break;
 					case 5:
 						this.viewBookings(sin);
@@ -195,8 +195,9 @@ public class CommandLine {
 						this.cancelBooking(sin);
 						break;
 					case 7:
-						this.addAvailableDates(sin);
+						this.addAvailableDates(sin);//done
 						//add prices for each date too
+						//enter the lid of the 						
 						break;
 					case 8:
 						this.removeAvailableDates(sin);
@@ -351,9 +352,9 @@ public class CommandLine {
 		String laddr = sc.nextLine();
 		System.out.print("Enter the postal code: ");
 		String post_code = sc.nextLine();
-		System.out.print("Enter the latitude(9 digits, 6 decimal places): ");
+		System.out.print("Enter the latitude(4 total digits, 2 decimal places): ");
 		String lat = sc.nextLine();
-		System.out.print("Enter the longitude(9 digits, 6 decimal places): ");
+		System.out.print("Enter the longitude(4 total digits, 2 decimal places): ");
 		String lon = sc.nextLine();
 		System.out.print("Enter the city: ");
 		String city = sc.nextLine();
@@ -517,10 +518,14 @@ public class CommandLine {
 	}
 	
 	private void deleteListing(String sin){
+		sqlMngr.deleteHostListing(sin);
+
 		
 	}
 	
 	private void viewHostListings(String sin){
+		System.out.println("Here are all your listings: ");
+		sqlMngr.viewHostListings(sin);
 		
 	}
 	
@@ -530,10 +535,24 @@ public class CommandLine {
 	
 	private void cancelBooking(String sin){
 		
+		
 	}
 	
+	//Add more dates(and prices) to a Listing
 	private void addAvailableDates(String sin){
-		
+		System.out.println("enter the listing id you want to add dates to: ");
+		String lid = sc.nextLine();
+		String input = "";
+		while(input.compareTo("0") != 0){
+			System.out.println("Add one date(YYYY-MM-DD) and price, comma separated. Type 0 when done. Example: 2016-10-10,80\n");
+			input = sc.nextLine();
+			if(input.compareTo("0")!= 0){
+				
+				String[] input_vals = input.split(",");
+				sqlMngr.addListingAvailability(lid, input_vals[0], input_vals[1]);//pass lid, date and price 
+			}
+			
+		}
 	}
 	
 	private void removeAvailableDates(String sin){
