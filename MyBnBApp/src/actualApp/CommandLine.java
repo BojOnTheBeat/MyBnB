@@ -533,7 +533,7 @@ public class CommandLine {
 	}
 	
 	private void viewBookings(String sin){
-		System.out.println("These are all your booked Listings: ");
+		System.out.println("These are all your listings: ");
 		sqlMngr.viewBookingsByHost(sin);
 	}
 	
@@ -628,7 +628,7 @@ public class CommandLine {
 					System.out.println("Enter the exact address");
 					addr = sc.nextLine();
 				} else {
-					System.out.println("Y/N) Would you like to search by city?");
+					System.out.println("( 	Y/N) Would you like to search by city?");
 					String city_search = sc.nextLine();
 					if (city_search.compareToIgnoreCase("Y") == 0) {
 						System.out.println("Enter the city: ");

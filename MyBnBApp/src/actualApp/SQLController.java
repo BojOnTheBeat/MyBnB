@@ -640,7 +640,7 @@ public class SQLController {
 			int colNum = rsmd.getColumnCount();
 			System.out.println("");
 			for (int i = 0; i < colNum; i++) {
-				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t \t");
 			}
 			System.out.println("");
 			while(rs.next()) {
@@ -850,7 +850,7 @@ public class SQLController {
 			// count > 0 means renter has booked this lid
 			if (count > 0) {
 				String renter = "INSERT INTO RenterComment (host_sin, rsin, comment, rating) VALUES ('" +
-						sin + "', '" + rsin + "', '" + comment + "', '" + rating + "');";
+						sin + "', '" + rsin + "', '" + comment + "', '" + rating + ");";
 				Statement stmt = null;
 		        try {
 		            stmt = conn.createStatement();
@@ -875,7 +875,7 @@ public class SQLController {
 		
 		// for amenity filter
 		for (String amenity: amenities) {
-			query = query + ", ListingAmenitiy LA" + amenity;
+			query = query + ", ListingAmenity LA" + amenity;
 		}
 		
 		query = query + " WHERE Listing.lid=ListingAvailabilitity.lid";
@@ -919,7 +919,7 @@ public class SQLController {
 		if (!amenities.isEmpty()) {
 			query = query + " AND (";
 			for (String amenity: amenities) {
-				query = query + "LA" + amenity + " = '" + amenity + "' AND ";
+				query = query + "LA" + amenity + ".aid = '" + amenity + "' AND ";
 			}
 			// gets rid of last "' AND "
 			query = query.substring(0, query.length()-5);
