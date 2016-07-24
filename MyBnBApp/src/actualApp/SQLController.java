@@ -881,7 +881,7 @@ public class SQLController {
 		query = query + " WHERE Listing.lid=ListingAvailability.lid";
 
 		for (String amenity: amenities) {
-			query = query + "=LA" + amenity;
+			query = query + "=LA" + amenity + ".lid";
 		}
 
 		
