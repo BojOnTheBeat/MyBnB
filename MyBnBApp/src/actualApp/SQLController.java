@@ -471,6 +471,19 @@ public class SQLController {
 			System.err.println("Connection error occured!");
 		}
 	}
+	
+	//delete a Listing by host
+	public void deleteHostListing(String host_sin){
+		String sql = "DELETE FROM Listing WHERE sin = '"+ host_sin + "' ;";
+		Statement stmt = null;
+		try{
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+			System.out.println("Listind Deleted");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
 
 	public void bookListing(String sin, String lid, String date) {
 		try {
@@ -508,7 +521,6 @@ public class SQLController {
 	        stmt = conn.createStatement();
 	        stmt.executeUpdate(readd);
 	        System.out.println("Listing is now re-booked");
-	        System.out.println(count2);
 			return;
 		}
 		
@@ -576,6 +588,8 @@ public class SQLController {
            System.err.println("Connection error occured!");
         }
 	}
+	
+	
 	private void addDate(String lid, String date) {
 		String remove = "UPDATE ListingAvailability SET isAvailable='1'" + 
 				"WHERE lid = '" + lid + "' AND ldate = '" + date + "';";
@@ -617,16 +631,40 @@ public class SQLController {
            System.err.println("Connection error occured!");
         }
 	}
-
-	public void viewBookedListings(String sin) {
-		String query = "SELECT * FROM Booking WHERE rsin='" + sin + "';";
+	
+	public void viewHostListings(String sin){
+		String query = "SELECT * FROM Listing WHERE host_sin='" + sin + "';";
 		try {
 			ResultSet rs = st.executeQuery(query);
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int colNum = rsmd.getColumnCount();
 			System.out.println("");
 			for (int i = 0; i < colNum; i++) {
-				System.out.print(rsmd.getColumnLabel(i+1) + "\t\t\t");
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t \t");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during SELECT execution!");
+			e.printStackTrace();
+		}
+	}
+
+	public void viewBookedListings(String sin) {
+		String query = "SELECT * FROM Booking WHERE rsin='" + sin + "' AND isCancelled='0';";
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t \t");
 			}
 			System.out.println("");
 			while(rs.next()) {
