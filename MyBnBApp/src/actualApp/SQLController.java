@@ -868,4 +868,10 @@ public class SQLController {
 		}
 		
 	}
+
+	public void search(String lati, String longi, String post_code, String addr, String city, String sort_by,
+			String price_min, String price_max, String after_date, String before_date, ArrayList<String> amenities) {
+		// TODO Auto-generated method stub
+		
+	}
 }

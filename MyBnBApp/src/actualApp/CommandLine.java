@@ -338,7 +338,7 @@ public class CommandLine {
 		System.out.println("6. gym");
 		System.out.println("7. heating");
 		System.out.println("8. workspace");
-		System.out.println("9. 24-hour checkin");
+		System.out.println("9. 24-hour check in");
 		System.out.println("10. parking");
 		System.out.println("11. pool");
 		System.out.println("12. tv");
@@ -449,7 +449,7 @@ public class CommandLine {
 		String input = "";
 		int choice = -1;
 		do {
-			System.out.println("Select an amenity: ");
+			System.out.println("Select an amenity (0 to finish): ");
 			input = sc.nextLine();
 			try{
 				choice = Integer.parseInt(input);
@@ -457,55 +457,55 @@ public class CommandLine {
 				
 				case 1:
 					System.out.println("Adding wifi gets you an expected $40 revenue increase!");
-					sqlMngr.addListingAmenity(lid, "1");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 2:
 					System.out.println("Adding laundry facilities gets you an expected $5 revenue increase!");
-					sqlMngr.addListingAmenity(lid, "2");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 3:
 					System.out.println("Adding kitchen facilities gets you an expected $40 revenue increase!");
-					sqlMngr.addListingAmenity(lid, "3");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 4:
 					System.out.println("Adding air conditioning gets you an expected $20 revenue increase!");
-					sqlMngr.addListingAmenity(lid, "4");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 5:
 					System.out.println("Adding wheelchair access gets you an expected $10 increase!");
-					sqlMngr.addListingAmenity(lid, "5");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 6:
 					System.out.println("Adding a gym gets you an expected $30 increase!");
-					sqlMngr.addListingAmenity(lid, "6");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 7:
 					System.out.println("Adding heating gets you an expected $20 increase!");
-					sqlMngr.addListingAmenity(lid, "7");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 8:
 					System.out.println("Adding a workspace gets you an expected $10 increase!");
-					sqlMngr.addListingAmenity(lid, "8");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 9:
-					System.out.println("Adding 24-hour chekin gets you an expected $40 increase!");
-					sqlMngr.addListingAmenity(lid, "9");
+					System.out.println("Adding 24-hour check in gets you an expected $40 increase!");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 10:
 					System.out.println("Adding free parking gets you an expected $20 increase!");
-					sqlMngr.addListingAmenity(lid, "10");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 11:
 					System.out.println("Adding a pool gets you an expected $10 increase!");
-					sqlMngr.addListingAmenity(lid, "11");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 12:
 					System.out.println("Adding a tv gets you an expected $15 increase!");
-					sqlMngr.addListingAmenity(lid, "12");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				case 13:
 					System.out.println("Adding a smoke detector gets you an expected $5 increase!");
-					sqlMngr.addListingAmenity(lid, "12");
+					sqlMngr.addListingAmenity(lid, input);
 					break;
 				default:
 					break;
@@ -603,7 +603,234 @@ public class CommandLine {
 	}
 
 	private void viewListings(String sin){
+		System.out.println("(Y/N) Would you to search by latitude and longitude?");
+		String lati_longi = sc.nextLine();
+		String lati = "-1";
+		String longi = "-1";
+		String post_code = "-1";
+		String addr = "-1";
+		String city = "-1";
+		if (lati_longi.compareToIgnoreCase("Y") == 0) {
+			System.out.println("Enter the latitude: ");
+			lati = sc.nextLine();
+			System.out.println("Enter the latitude: ");
+			longi = sc.nextLine();
+		} else {
+			System.out.println("(Y/N) Would you to search by postal code?");
+			String post = sc.nextLine();
+			if (post.compareToIgnoreCase("Y") == 0) {
+				System.out.println("Enter the postal code: ");
+				post_code = sc.nextLine();
+			} else {
+				System.out.println("(Y/N) Would you like to search by exact address?");
+				String exact = sc.nextLine();
+				if (exact.compareToIgnoreCase("Y") == 0) {
+					System.out.println("Enter the exact address");
+					addr = sc.nextLine();
+				} else {
+					System.out.println("Y/N) Would you like to search by city?");
+					String city_search = sc.nextLine();
+					if (city_search.compareToIgnoreCase("Y") == 0) {
+						System.out.println("Enter the city: ");
+						city = sc.nextLine();
+					} else {
+						System.out.println("No search selected. Exiting search");
+						return;
+					}
+				}
+			}
+		}
+
+		String sort_by = "";
+		int sort = -1;
+		do {
+			System.out.println("Would you like to sort by: ");
+			System.out.println("1. Price(ascending)");
+			System.out.println("2. Price(decending)");
+			if (lati_longi.compareToIgnoreCase("Y") == 0) {
+				System.out.println("3. Distance");
+			}
+			System.out.println("0. Exit");
+			sort_by = sc.nextLine();
+			try{
+				if (lati_longi.compareToIgnoreCase("Y") != 0 && sort_by.compareTo("3") == 0) {
+					sort_by = "-1";
+				}
+				sort = Integer.parseInt(sort_by);
+				switch (sort) {
+				case 1:
+					System.out.println("Sort by price(ascending) chosen");
+					break;
+				case 2:
+					System.out.println("Sort by price(descending) chosen");
+					break;
+				case 3:
+					System.out.println("Sort by distance chosen");
+					break;
+				default:
+					break;
+				}
+			}catch(NumberFormatException e){
+				sort_by = "-1";
+			}
+		}while(sort_by.compareTo("0") != 0 ||
+				sort_by.compareTo("1") != 0 ||
+				sort_by.compareTo("2") != 0 ||
+				sort_by.compareTo("3") != 0);
 		
+		System.out.println("(Y/N) Would you like to add a price range?");
+		String price_range = sc.nextLine();
+		String price_min = "-1";
+		String price_max = "-1";
+		if (price_range.compareToIgnoreCase("Y") == 0) {
+			System.out.println("Enter the minimum price (-1 for no limit): ");
+			price_min = sc.nextLine();
+			System.out.println("Enter the maximum price (-1 for no limit): ");
+			price_max = sc.nextLine();
+		}
+		
+		System.out.println("(Y/N) Would you like to add a date range?");
+		String date_range = sc.nextLine();
+		String after_date = "-1";
+		String before_date = "-1";
+		if (date_range.compareToIgnoreCase("Y") == 0) {
+			System.out.println("Enter the date you want your listings to be after (-1 for no limit): ");
+			after_date = sc.nextLine();
+			System.out.println("Enter the date you want your listings to be before (-1 for no limit): ");
+			before_date = sc.nextLine();
+		}		
+		
+		System.out.println("(Y/N) Woud you like to filter listings to must have amenities?");
+		String filter = sc.nextLine();
+		ArrayList<String> amenities = new ArrayList<String>();
+
+		if (filter.compareToIgnoreCase("Y") == 0) {
+			System.out.println("These are the amenities we currently support:\n");
+			listAmenities();
+
+			String amenity = "";
+			int choice = -1;
+			do {
+				System.out.println("Select an amenity (0 to finish): ");
+				amenity = sc.nextLine();
+				try{
+					choice = Integer.parseInt(amenity);
+					switch (choice) {
+					
+					case 1:
+						if (amenities.contains(amenity)) {
+							System.out.println("Wifi is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding wifi in filter");
+						}
+						break;
+					case 2:
+						if (amenities.contains(amenity)) {
+							System.out.println("Laundry facilities is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding laundry facilities in filter");
+						}
+						break;
+					case 3:
+						if (amenities.contains(amenity)) {
+							System.out.println("Kitchen facilities is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding kitchen facilities in filter");
+						}
+						break;
+					case 4:
+						if (amenities.contains(amenity)) {
+							System.out.println("Air conditioning is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding air conditioning in filter");
+						}
+						break;
+					case 5:
+						if (amenities.contains(amenity)) {
+							System.out.println("Wheelchair access is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding wheelchair access in filter");
+						}
+						break;
+					case 6:
+						if (amenities.contains(amenity)) {
+							System.out.println("Gym is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding a gym in filter");
+						}
+						break;
+					case 7:
+						if (amenities.contains(amenity)) {
+							System.out.println("Heating is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding heating in filter");
+						}
+						break;
+					case 8:
+						if (amenities.contains(amenity)) {
+							System.out.println("Workspace is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding a workspace in filter");
+						}
+						break;
+					case 9:
+						if (amenities.contains(amenity)) {
+							System.out.println("24-hour check in is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding 24-hour check in in filter");
+						}
+						break;
+					case 10:
+						if (amenities.contains(amenity)) {
+							System.out.println("Free parking is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding free parking in filter");
+						}
+						break;
+					case 11:
+						if (amenities.contains(amenity)) {
+							System.out.println("Pool is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding a pool in filter");
+						}
+						break;
+					case 12:
+						if (amenities.contains(amenity)) {
+							System.out.println("Tv is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding a tv in filter");
+						}
+						break;
+					case 13:
+						if (amenities.contains(amenity)) {
+							System.out.println("Smoke detector is already added");
+						} else {
+							amenities.add(amenity);
+							System.out.println("Adding a smoke detector in filter");
+						}
+						break;
+					default:
+						break;
+					}
+				}catch(NumberFormatException e){
+					amenity = "-1";
+				}
+			} while (amenity.compareTo("0") != 0);
+		}
+		
+		sqlMngr.search(lati, longi, post_code, addr, city, sort_by, price_min, price_max, after_date, before_date, amenities);
 	}
 
 	private void bookListing(String sin){
@@ -611,11 +838,11 @@ public class CommandLine {
 		String lid = sc.nextLine();
 		String more = "Y";
 		
-		while (more == "Y") {
+		while (more.compareToIgnoreCase("Y") == 0) {
 			System.out.println("Enter the date you want to book: ");
 			String date = sc.nextLine();
 			sqlMngr.bookListing(sin, lid, date);
-			System.out.println("Do you want to book another date for this listing (Y/N)?: ");
+			System.out.println("(Y/N) Do you want to book another date for this listing?");
 			more = sc.nextLine();
 		}
 	}
