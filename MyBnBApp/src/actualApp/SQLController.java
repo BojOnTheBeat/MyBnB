@@ -891,9 +891,9 @@ public class SQLController {
 		} else if (post_code.compareTo("-1") != 0) {
 			
 		} else if (addr.compareTo("-1") != 0) {
-			query = query + "laddr = '" + addr + "'";
+			query = query + " AND laddr = '" + addr + "'";
 		} else {
-			query = query + "city = '" + city + "'";
+			query = query + " AND city = '" + city + "'";
 		}
 		
 		// price filter
