@@ -887,8 +887,9 @@ public class SQLController {
 		
 		// location based
 		if (lati.compareTo("-1") != 0) {
-			
+			query = query + " AND lat = '" + lati + "' AND lon = '" + longi + "'";
 		} else if (post_code.compareTo("-1") != 0) {
+			query = query + " AND postal_code = '" + post_code + "'";
 			
 		} else if (addr.compareTo("-1") != 0) {
 			query = query + " AND laddr = '" + addr + "'";
