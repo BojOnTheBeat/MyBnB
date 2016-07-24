@@ -875,10 +875,10 @@ public class SQLController {
 		
 		// for amenity filter
 		for (String amenity: amenities) {
-			query = query + ", ListingAmenitiy LA" + amenity;
+			query = query + ", ListingAmenities LA" + amenity;
 		}
 		
-		query = query + " WHERE Listing.lid=ListingAvailabilitity.lid";
+		query = query + " WHERE Listing.lid=ListingAvailability.lid";
 
 		for (String amenity: amenities) {
 			query = query + "=LA" + amenity;

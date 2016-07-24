@@ -628,7 +628,7 @@ public class CommandLine {
 					System.out.println("Enter the exact address");
 					addr = sc.nextLine();
 				} else {
-					System.out.println("Y/N) Would you like to search by city?");
+					System.out.println("(Y/N) Would you like to search by city?");
 					String city_search = sc.nextLine();
 					if (city_search.compareToIgnoreCase("Y") == 0) {
 						System.out.println("Enter the city: ");
