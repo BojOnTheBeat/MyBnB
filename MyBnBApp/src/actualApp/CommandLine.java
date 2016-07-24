@@ -145,6 +145,7 @@ public class CommandLine {
 		System.out.println("7. Add available dates to a listing");
 		System.out.println("8. Remove available dates for a listing");
 		System.out.println("9. Comment and Rate a renter");
+		System.out.println("10. Change price for a particular date");
 		System.out.println("0. Exit");
 	}
 	
@@ -197,14 +198,16 @@ public class CommandLine {
 					case 7:
 						this.addAvailableDates(sin);//done
 						//add prices for each date too
-						//enter the lid of the 						
 						break;
 					case 8:
 						this.removeAvailableDates(sin);
+						//Ask for lid, only remove dates if listing isn't booked
 						break;
 					case 9:
 						this.commentAndRateRenter(sin);
 						break;
+					case 10:
+						this.changePriceForDate(sin);//done
 					default:
 						break;
 					}
@@ -530,17 +533,26 @@ public class CommandLine {
 	}
 	
 	private void viewBookings(String sin){
-		
+		System.out.println("These are all your listings: ");
+		sqlMngr.viewBookingsByHost(sin);
 	}
 	
 	private void cancelBooking(String sin){
+		System.out.println("Enter the SIN of the renter whose booking you want to cancel: ");
+		String rsin = sc.nextLine();
+		System.out.println("Enter the date of the booking you want to cancel: ");
+		String date = sc.nextLine();
+		System.out.println("Enter the listing id of the booking you want to cancel: ");
+		String lid = sc.nextLine();
+		sqlMngr.cancelBookedListing(rsin, lid, date);
+		System.out.println("A host has cancelled this booking");
 		
 		
 	}
 	
 	//Add more dates(and prices) to a Listing
 	private void addAvailableDates(String sin){
-		System.out.println("enter the listing id you want to add dates to: ");
+		System.out.println("enter the listing id you want to add dates(and prices) to: ");
 		String lid = sc.nextLine();
 		String input = "";
 		while(input.compareTo("0") != 0){
@@ -555,7 +567,27 @@ public class CommandLine {
 		}
 	}
 	
+	private void changePriceForDate(String sin){
+		//which listing? which date?
+		//check if isAvailable is 1. If it is then update the price
+		//If it's not, print that the listing is booked on that day
+		System.out.println("Enter the listing id you want to change prices for: ");
+		String lid = sc.nextLine();
+		System.out.println("enter the date you want to change price for(YYYY-MM-DD): ");
+		String date = sc.nextLine();
+		System.out.println("Enter the new price: ");
+		String new_price = sc.nextLine();
+		sqlMngr.changePriceForDate(lid, date, new_price);
+		
+		
+	}
+	
 	private void removeAvailableDates(String sin){
+		System.out.println("Enter the listing id you want to remove date availability for: ");
+		String lid = sc.nextLine();
+		System.out.println("enter the date on which you want to make the listing unavailable(YYYY-MM-DD): ");
+		String date = sc.nextLine();
+		sqlMngr.makeDateUnavailable(lid, date);
 		
 	}
 	

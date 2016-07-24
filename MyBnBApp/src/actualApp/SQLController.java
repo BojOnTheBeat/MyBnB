@@ -655,6 +655,125 @@ public class SQLController {
 			e.printStackTrace();
 		}
 	}
+	
+	//Make the specified listing unavailable on the specified date(i.e delete it from ListingAvail.
+	public void makeDateUnavailable(String lid, String date){
+		//First check if it's available at the given date.
+		try{
+			//Check to see if listing is available at given date.
+			String queryCheck = "SELECT * FROM ListingAvailability WHERE lid = ? AND ldate = ? AND isAvailable='1'";
+			PreparedStatement ps = conn.prepareStatement(queryCheck);
+			ps.setString(1, lid);
+			ps.setString(2, date);
+			ResultSet resultSet = ps.executeQuery();
+			int count = 0;
+			if(resultSet.next()){
+				count = resultSet.getInt(1);
+			}
+			if (count == 0){
+				//listing has been booked, host can't change price
+				System.out.println("Listing has been booked for that day. You can't change the price");
+				return;
+			}
+			
+			String del = "DELETE FROM ListingAvailability WHERE lid = '" + lid + "' AND ldate = '" + date + "';"; 
+			Statement stmt = null;
+			stmt = conn.createStatement();
+			stmt.executeUpdate(del);
+			System.out.println("The listing is no longer available on " + date);
+		}catch (SQLException e){
+			System.err.println("Connection error occured!");
+            e.printStackTrace(System.err);
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
+		}
+	}
+	
+	//modify the price for a particular date 
+	public void changePriceForDate(String lid, String date, String new_price){
+		try{
+			//Check to see if listing is available at given date.
+			String queryCheck = "SELECT * FROM ListingAvailability WHERE lid = ? AND ldate = ? AND isAvailable='1'";
+			PreparedStatement ps = conn.prepareStatement(queryCheck);
+			ps.setString(1, lid);
+			ps.setString(2, date);
+			ResultSet resultSet = ps.executeQuery();
+			int count = 0;
+			if(resultSet.next()){
+				count = resultSet.getInt(1);
+			}
+			
+			if (count == 0){
+				//listing has been booked, host can't change price
+				System.out.println("Listing has been booked for that day. You can't change the price");
+				return;
+			}
+			String upd = "UPDATE ListingAvailability SET price ='" + new_price + "' WHERE ldate = '" + date + "' AND lid = '" + lid + "' ;";
+			
+			Statement stmt = null;
+			stmt = conn.createStatement();
+			stmt.executeUpdate(upd);
+			System.out.println("The price for " + date + " has now been changed");
+			
+		}catch (SQLException e){
+			System.err.println("Connection error occured!");
+            e.printStackTrace(System.err);
+            
+            //**EXTRA ERROR INFO FOR DEBUGGING**
+            System.err.println("SQLState: " +
+                ((SQLException)e).getSQLState());
+
+            System.err.println("Error Code: " +
+                ((SQLException)e).getErrorCode());
+
+            System.err.println("Message: " + e.getMessage());
+
+            Throwable t = e.getCause();
+            while(t != null) {
+                System.out.println("Cause: " + t);
+                t = t.getCause();
+            }
+		}
+	}
+	
+	public void viewBookingsByHost(String sin){
+		String query = "SELECT host_sin,Listing.lid,type,laddr,city,country FROM Listing,Booking WHERE Listing.lid=Booking.lid AND host_sin='" + 
+						sin + "' AND Booking.isCancelled='0';";
+		
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t \t");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during SELECT execution!");
+			e.printStackTrace();
+		}
+	}
 
 	public void viewBookedListings(String sin) {
 		String query = "SELECT * FROM Booking WHERE rsin='" + sin + "' AND isCancelled='0';";
