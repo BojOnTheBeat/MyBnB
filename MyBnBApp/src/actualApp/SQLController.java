@@ -1068,4 +1068,191 @@ public class SQLController {
 			e.printStackTrace();
 		}
 	}
+	public void rankHostsByNumListings(String cityOrCountry){
+		String query;
+		if (cityOrCountry.compareTo("city") == 0){
+			query = "select host_sin,name,count(lid) as NumberOfListings, city from Listing,User "
+					+ "WHERE host_sin=sin  group by host_sin,city ORDER by NumberOfListings DESC;";
+		}else{
+			query = "select host_sin,name,count(lid) as NumberOfListings, country from Listing,User "
+					+ "WHERE host_sin=sin  group by host_sin,country ORDER by NumberOfListings DESC;";
+		}
+		
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t ");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during viewRenterComments execution!");
+			e.printStackTrace();
+		}
+	}
+	
+	public void tenPercent(){
+		String query = "select host_sin, name, table1.country from "
+				+ "(select host_sin, name, count(lid) as NumberOfListings, country from Listing, User"
+				+ " Where host_sin=sin group by host_sin, country order by NumberOfListings DESC) "
+				+ "Table1, (select country, count(*) as CountryListings from Listing group by country) Table2 "
+				+ "WHERE Table1.NumberOfListings>=(0.1*Table2.CountryListings) AND Table1.country=Table2.country;";
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t ");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during viewRenterComments execution!");
+			e.printStackTrace();
+		}
+		
+						
+	}
+	
+	public void largestCancellations(String date){
+		String query = "SELECT rsin, name, count(isCancelled) as NumberOfCancellations FROM Booking, User"
+				+ " WHERE User.sin=rsin and isCancelled='1' and bdate>='" + date
+				+ "' group by rsin;";
+		
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t ");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during viewRenterComments execution!");
+			e.printStackTrace();
+		}
+	}
+	
+	public void totalNumBookingsInTimePeriod(String city, String mindate, String maxdate){
+		String query;
+		if (city.compareTo("city") == 0){
+			query = "SELECT name,rsin,city,count(*) as NumberOfBookings FROM BOOKING,User,Listing "
+					+ "WHERE booking.lid=listing.lid AND bdate<='" + maxdate + "' AND bdate>= '"+ mindate
+					+ "'AND sin=rsin group by rsin, city having count(*)>=2 Order By NumberOfBookings Desc;";
+		}else{
+			query = "SELECT name,rsin,count(*) as NumberOfBookings FROM BOOKING,User,Listing "
+					+ "WHERE booking.lid=listing.lid AND bdate<='" + maxdate + "' AND bdate>= '"+ mindate
+					+ "'AND sin=rsin group by rsin Order By NumberOfBookings Desc;";
+			
+			
+		}
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t ");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during viewRenterComments execution!");
+			e.printStackTrace();
+		}
+		
+		
+	}
+		
+	public void totalNumListings(String cityOrCountry){
+		String query;
+		if (cityOrCountry.compareTo("city") == 0){
+			query = "select city, count(*) as NumberOfListings from Listing group by city;";
+		}else{
+			query = "select country, count(*) as NumberOfListings from Listing group by country;";
+		}
+		
+		
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t ");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during viewRenterComments execution!");
+			e.printStackTrace();
+		}
+	}
+	
+	public void totalNumBookingsByCity(String mindate, String maxdate){
+		String query = "SELECT city, COUNT(*) FROM Listing, Booking, ListingAvailability "
+				+ "WHERE Booking.lid=Listing.lid=ListingAvailability.lid"
+				+ " AND isAvailable='0' "
+				+ "AND bdate <= '" + maxdate + "'AND bdate >= '" + mindate 
+				+ "'GROUP BY city;";
+		
+		try {
+			ResultSet rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colNum = rsmd.getColumnCount();
+			System.out.println("");
+			for (int i = 0; i < colNum; i++) {
+				System.out.print(rsmd.getColumnLabel(i+1) + "\t");
+			}
+			System.out.println("");
+			while(rs.next()) {
+				for (int i = 0; i < colNum; i++) {
+					System.out.print(rs.getString(i+1) + "\t \t");
+				}
+				System.out.println("");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.err.println("Exception triggered during viewRenterComments execution!");
+			e.printStackTrace();
+		}
+		
+		
+	}
 }

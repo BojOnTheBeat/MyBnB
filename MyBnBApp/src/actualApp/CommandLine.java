@@ -170,10 +170,13 @@ public class CommandLine {
 	private static void reports_menu(){
 		System.out.println("**********REPORTS MENU**********");
 		System.out.println("1. Total # of bookings in a date range by city");
-		System.out.println("2. Total # of bookings per country(and city)");
-		System.out.println("3. Rank hosts by total # of listings per country(and city)");
-		System.out.println("4. Rank the renters by # of bookings in a time period(per city)");
-		System.out.println("5. Hosts and Renters with large # of cancellations");
+		System.out.println("2. Total # of listings per country");
+		System.out.println("3. Total # of listings per city");
+		System.out.println("4. Rank hosts by total # of listings per country");
+		System.out.println("5. Rank hosts by total # of listings per city");
+		System.out.println("6. Rank the renters by # of bookings in a time period(per city)");
+		System.out.println("7. Hosts and Renters with large # of cancellations");
+		System.out.println("8. Hosts with more than 10% of a country's Listings");
 		System.out.println("0. Exit");
 		
 	}
@@ -190,15 +193,27 @@ public class CommandLine {
 				report_choice = Integer.parseInt(report_in);
 				switch (report_choice) { //Activate the desired functionality
 				case 1:
+					this.totalNumBookingsByCity();
 					break;
 				case 2:
+					this.totalNumListings("country");
 					break;
 				case 3:
+					this.totalNumListings("city");
 					break;
 				case 4:
+					this.rankHostsByNumListings("country");
 					break;
 				case 5:
+					this.rankHostsByNumListings("city");
 					break;
+				case 6:
+					this.totalNumBookingsInTimePeriod();
+					break;
+				case 7:
+					this.largestCancellations();
+				case 8:
+					this.tenPercent();
 				default:
 					break;
 				}
@@ -387,6 +402,47 @@ public class CommandLine {
 		if(choice.compareToIgnoreCase("Y") == 0){
 			sqlMngr.deleteHost(sin);
 		}
+	}
+	
+	private void tenPercent(){
+		sqlMngr.tenPercent();
+	}
+	private void totalNumBookingsInTimePeriod(){
+		System.out.println("(Y/N)Would you like to display results per city?");
+		String choice = sc.nextLine();
+		System.out.println("Enter min date: ");
+		String mindate = sc.nextLine();
+		System.out.println("Enter max date: ");
+		String maxdate = sc.nextLine();
+		if (choice.compareTo("Y") == 0){
+			sqlMngr.totalNumBookingsInTimePeriod("city", mindate, maxdate);
+		}else{
+			sqlMngr.totalNumBookingsInTimePeriod("-1", mindate, maxdate);
+		}
+		
+	}
+	
+	private void largestCancellations(){
+		System.out.println("Enter last years date: ");
+		String date = sc.nextLine();
+		sqlMngr.largestCancellations(date);
+	}
+	
+	private void totalNumBookingsByCity(){
+		System.out.println("Enter min date: ");
+		String mindate = sc.nextLine();
+		System.out.println("Enter max date: ");
+		String maxdate = sc.nextLine();
+		sqlMngr.totalNumBookingsByCity(mindate, maxdate);
+	}
+	
+	private void totalNumListings(String cityOrCountry){
+		sqlMngr.totalNumListings(cityOrCountry);
+	}
+	
+	private void rankHostsByNumListings(String cityOrCountry){
+		sqlMngr.rankHostsByNumListings(cityOrCountry);
+		
 	}
 	
 	//Delete the renter's profile...saving the sin he used to sign in
